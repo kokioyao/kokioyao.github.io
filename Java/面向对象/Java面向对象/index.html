@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="关于Java面向对象的基础内容。  面向对象和面向过程首先Java是面向对象的一门语言，最大的特点在于平台无关性。 面向过程优点：性能比面向对象高，因为类调用时需要实例化，开销比较大，比较消耗资源。比如单片机、嵌入式开发、Linux/Unix等一般采用面向过程开发，性能是最重要的因素。">
+<meta name="keywords" content="Java,自学笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java面向对象">
+<meta property="og:url" content="http://kokioyao.github.io/Java/面向对象/Java面向对象/index.html">
+<meta property="og:site_name" content="面壁墙">
+<meta property="og:description" content="关于Java面向对象的基础内容。  面向对象和面向过程首先Java是面向对象的一门语言，最大的特点在于平台无关性。 面向过程优点：性能比面向对象高，因为类调用时需要实例化，开销比较大，比较消耗资源。比如单片机、嵌入式开发、Linux/Unix等一般采用面向过程开发，性能是最重要的因素。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-19T15:18:25.679Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java面向对象">
+<meta name="twitter:description" content="关于Java面向对象的基础内容。  面向对象和面向过程首先Java是面向对象的一门语言，最大的特点在于平台无关性。 面向过程优点：性能比面向对象高，因为类调用时需要实例化，开销比较大，比较消耗资源。比如单片机、嵌入式开发、Linux/Unix等一般采用面向过程开发，性能是最重要的因素。">
+
+
+
+
+
+
+  <link rel="canonical" href="http://kokioyao.github.io/Java/面向对象/Java面向对象/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Java面向对象 | 面壁墙</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">面壁墙</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">意志のあるところに道は開ける</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-book">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/book/" rel="section"><i class="menu-item-icon fa fa-fw fa-book"></i> <br>资料</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-plus">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/plus/" rel="section"><i class="menu-item-icon fa fa-fw fa-plus"></i> <br>自省</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kokioyao.github.io/Java/面向对象/Java面向对象/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kokio Yao">
+      <meta itemprop="description" content="一个所谓的乖小孩，突然想有自己的喜好">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面壁墙">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java面向对象
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-10 17:40:29" itemprop="dateCreated datePublished" datetime="2018-08-10T17:40:29+08:00">2018-08-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新</span>
+                
+                <time title="修改时间：2019-03-19 23:18:25" itemprop="dateModified" datetime="2019-03-19T23:18:25+08:00">2019-03-19</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/面向对象/" itemprop="url" rel="index"><span itemprop="name">面向对象</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论：</span>
+                <a href="/Java/面向对象/Java面向对象/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Java/面向对象/Java面向对象/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-fire"></i>
+             热度： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">4.2k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">4 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>关于Java面向对象的基础内容。</p>
+<hr>
+<h3 id="面向对象和面向过程"><a href="#面向对象和面向过程" class="headerlink" title="面向对象和面向过程"></a>面向对象和面向过程</h3><p>首先Java是面向对象的一门语言，最大的特点在于平台无关性。</p>
+<h4 id="面向过程"><a href="#面向过程" class="headerlink" title="面向过程"></a>面向过程</h4><p><strong>优点：</strong>性能比面向对象高，因为类调用时需要实例化，开销比较大，比较消耗资源。比如单片机、嵌入式开发、Linux/Unix等一般采用面向过程开发，性能是最重要的因素。<br><a id="more"></a></p>
+<p><strong>缺点：</strong>没有面向对象易维护、易复用、易扩展。</p>
+<h4 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h4><p><strong>优点：</strong>易维护、易复用、易扩展，由于面向对象有封装、继承、多态的特性，可以设计出低耦合的系统，是系统更加灵活、更加易于维护。<br><strong>缺点：</strong>性能比面向过程低。</p>
+<h3 id="面向对象的三大特性"><a href="#面向对象的三大特性" class="headerlink" title="面向对象的三大特性"></a>面向对象的三大特性</h3><h4 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h4><p>封装是把一个对象的属性私有化，外部只能通过对象的方法与对象数据进行交互。</p>
+<h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h4><p>继承是指可以让某个类型的对象获得另一个类型对象的(全部)属性和方法（非private）,在此基础上还可以添加自己的方法和属性，来对父类进行扩展，还可以重写父类的方法。</p>
+<p>继承要注意的点：</p>
+<ol>
+<li>父类的私有的成员变量不能被继承（子类会拥有，但不能使用，除非用父类的public或protected方法调用）。</li>
+<li>父类的构造方法也不能被继承</li>
+<li>创建子类对象时默认会先调用父类的无参的构造函数。（为了初始化从父类继承下来的成员变量）。</li>
+</ol>
+<h4 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h4><p>多态是指程序中定义的引用变量所指向的具体类型和通过该引用变量发出的方法调用在编程时并不确定，而是在程序运行期间才确定，即一个引用变量倒底会指向哪个类的实例对象，该引用变量发出的方法调用到底是哪个类中实现的方法，必须在由程序运行期间才能决定。<br>在Java中有两种形式可以实现多态：继承（多个子类对同一方法的重写）和接口（实现接口并覆盖接口中同一方法）。</p>
+<h3 id="static关键字"><a href="#static关键字" class="headerlink" title="static关键字"></a>static关键字</h3><h4 id="static特点"><a href="#static特点" class="headerlink" title="static特点"></a>static特点</h4><ol>
+<li>随着类的加载而加载，静态会随着类的加载而加载，随着类的消失而消失。说明它的生命周期很长。</li>
+<li>优先于对象存在。–&gt;静态是先存在，对象是后存在。</li>
+<li>被所有实例(对象)所共享。</li>
+<li>可以直接被类名调用</li>
+</ol>
+<h4 id="static使用场景"><a href="#static使用场景" class="headerlink" title="static使用场景"></a>static使用场景</h4><ol>
+<li>修饰成员变量和成员方法: 被 static 修饰的成员属于类，不属于单个这个类的某个对象，被类中所有对象共享，可以并且建议通过类名调用。被static 声明的成员变量属于静态成员变量，静态变量 存放在 Java 内存区域的方法区。调用格式：类名.静态变量名 类名.静态方法名()</li>
+<li>静态代码块: 静态代码块定义在类中方法外, 静态代码块在非静态代码块之前执行(静态代码块—&gt;非静态代码块—&gt;构造方法)。 该类不管创建多少对象，静态代码块只执行一次.</li>
+<li><p>静态内部类（static修饰类的话只能修饰内部类）： 静态内部类与非静态内部类之间存在一个最大的区别: 非静态内部类在编译完成之后会隐含地保存着一个引用，该引用是指向创建它的外围类，但是静态内部类却没有。没有这个引用就意味着：</p>
+<ol>
+<li>它的创建是不需要依赖外围类的创建。</li>
+<li><p>它不能使用任何外围类的非static成员变量和方法。<br>静态内部类实现单例模式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    声明为 <span class="keyword">private</span> 避免调用默认构造方法创建对象</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    声明为 <span class="keyword">private</span> 表明静态内部该类只能在该 Singleton 类中被访问</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonHolder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getUniqueInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当 Singleton 类加载时，静态内部类 SingletonHolder 没有被加载进内存。只有当调用 getUniqueInstance() 方法从而触发 SingletonHolder.INSTANCE 时 SingletonHolder 才会被加载，此时初始化 INSTANCE 实例，并且 JVM 能确保 INSTANCE 只被实例化一次。<br>这种方式不仅具有延迟初始化的好处，而且由 JVM 提供了对线程安全的支持。</p>
+</li>
+</ol>
+</li>
+<li><p>静态导包(用来导入类中的静态资源，1.5之后的新特性): 格式为：import static 这两个关键字连用可以指定导入某个类中的指定静态资源，并且不需要使用类名调用类中静态成员，可以直接使用类中静态成员变量和成员方法。</p>
+</li>
+</ol>
+<h4 id="static的优缺点"><a href="#static的优缺点" class="headerlink" title="static的优缺点"></a>static的优缺点</h4><p>优点：对对象的共享数据进行单独空间的存储,节省空间<br>缺点：生命周期过长且访问出现局限性。（静态只能访问静态）</p>
+<h4 id="构造代码块"><a href="#构造代码块" class="headerlink" title="构造代码块"></a>构造代码块</h4><p>构造代码块是在每次创建对象时执行。如下几个细节</p>
+<ol>
+<li>构造函数的代码是位于成员变量的显式初始化语句、构造代码块语句之后执行的，<strong>即构造函数里的代码是最后执行</strong>。</li>
+<li>成员变量的显式初始化语句与构造代码块的语句的先后执行顺序是按照当前代码的顺序执行的。</li>
+<li>成员变量的初始化语句和构造代码块的代码其实是在构造函数中完成的。</li>
+</ol>
+<h3 id="类的执行顺序"><a href="#类的执行顺序" class="headerlink" title="类的执行顺序"></a>类的执行顺序</h3><p>对于一个类而言：</p>
+<ol>
+<li>执行静态代码块</li>
+<li>执行构造代码块</li>
+<li>执行构造函数</li>
+</ol>
+<p>对于静态变量、静态初始化块、变量、初始化块、构造器，它们的初始化顺序依次是（静态变量、静态初始化块）&gt;（变量、初始化块）&gt; 构造器。</p>
+<p>静态代码块只在第一次new执行一次，之后不再执行，而非静态代码块在每new一次就执行一次。 非静态代码块可在普通方法中定义(不过作用不大)；而静态代码块不行。</p>
+<p>非静态代码块与构造函数的区别是： 非静态代码块是给所有对象进行统一初始化，而构造函数是给对应的对象初始化，因为构造函数是可以多个的，运行哪个构造函数就会建立什么样的对象，但无论建立哪个对象，都会先执行相同的构造代码块。也就是说，构造代码块中定义的是不同对象共性的初始化内容。</p>
+<p>当涉及到继承时，按照如下顺序执行：</p>
+<ol>
+<li>执行父类的静态代码块，并初始化父类静态成员变量</li>
+<li>执行子类的静态代码块，并初始化子类静态成员变量</li>
+<li>执行父类的构造代码块，执行父类的构造函数，并初始化父类普通成员变量</li>
+<li>执行子类的构造代码块， 执行子类的构造函数，并初始化子类普通成员变量</li>
+</ol>
+<h3 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h3><h4 id="哪里使用"><a href="#哪里使用" class="headerlink" title="哪里使用"></a>哪里使用</h4><p>主要用于修饰类、类成员、方法、以及方法的形参</p>
+<ol>
+<li>成员变量：表示该成员变量是常量，不能被修改，常量名要大写，且需要赋值。</li>
+<li>类：表示该类不能被继承，可以防止代码功能被重写，不再进行功能扩展。</li>
+<li>方法：表示该方法是最终方法，不能被重写。</li>
+<li>形参：当形参被修饰为final，那么该形参所属的方法中不能被修改。</li>
+</ol>
+<h3 id="关键字super"><a href="#关键字super" class="headerlink" title="关键字super"></a>关键字super</h3><p>在子类调用父类的属性、方法、构造函数时可以使用。在子类的构造函数中会隐式的调用，当子类自动调用时，它调用的时父类的无参构造函数，我们也可以显式调用，调用有参父类构造函数。<br>值得注意的一点是，super和this不能同时存在，他们都必须放在构造函数的第一句。</p>
+<h3 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h3><p>内部类: 在一个类的内部定义另外一个类，那么另外一个类则称作为内部类 。</p>
+<p>内部类的class文件名： 外部类$内部类.class   </p>
+<h4 id="成员内部类："><a href="#成员内部类：" class="headerlink" title="成员内部类："></a>成员内部类：</h4><p>成员内部类的访问方式：</p>
+<p>方式一：在外部类提供一个方法创建内部类的对象进行访问。</p>
+<p>方式二：在其他类中直接创建内部的对象进行访问。</p>
+<pre><code>格式： 外部类.内部类  变量名  = new 外部类().new 内部类();
+</code></pre><p>当静态成员内部类在其他类创建对象的格式：</p>
+<pre><code>外部类.内部类  变量名  =  new 外部类.内部类();
+</code></pre><p>内部类好处: 直接访问外部类的所有成员。</p>
+<p>细节：</p>
+<pre><code>1. 内部类可以直接访问外部类的所有成员。
+2. 内部类与外部类存在同名的成员时， 在内部类中默认是访问内部类的成员， 可以通过&quot;外部类.this.成员&quot;进行指定访问外部类的成员。
+3. 私有的成员内部类只能通过在外部类提供一个公共的方法进行访问。 在其他类无法访问。
+4.  如果一个成员内部类定义了静态的成员，那么该类也必须使用static修饰。
+</code></pre><h4 id="局部内部类："><a href="#局部内部类：" class="headerlink" title="局部内部类："></a>局部内部类：</h4><p>在一个方法内部定义的类称作为局部内部类。</p>
+<p>细节：如果局部内部类要访问局部变量，那么局部变量必须使用final去修饰。</p>
+<h4 id="匿名内部类："><a href="#匿名内部类：" class="headerlink" title="匿名内部类："></a>匿名内部类：</h4><p>没有类名的内部类就称作为匿名内部类。</p>
+<p>匿名内部类的好处： 简化书写，在jdk8中使用lambda再次简化</p>
+<p>匿名内部类使用前提： 必须存在继承或者实现的关系。</p>
+<p>细节：匿名内部类只是没有类名而已，其他的一切成员都是具备的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AnonymityInner</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        today(<span class="keyword">new</span> TodayWeather() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">getDay</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="string">"星期一"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">getWeather</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="string">"晴"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">today</span><span class="params">(TodayWeather todayWeather)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"今天是星期"</span>+ todayWeather.getDay() + <span class="string">"天气"</span>+ todayWeather.getWeather());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">TodayWeather</span></span>&#123;</span><br><span class="line">    <span class="function">String <span class="title">getDay</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">String <span class="title">getWeather</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/Java/final%E3%80%81static%E3%80%81this%E3%80%81super.md" target="_blank" rel="noopener">部分内容引用</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------<i class="fa fa-hand-o-right"></i> 感谢阅读-------------</div>
+    
+</div>
+
+      
+    </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/自学笔记/" rel="tag"># 自学笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Java/Throwable/JavaThrowable/" rel="next" title="Java异常">
+                <i class="fa fa-chevron-left"></i> Java异常
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Java/集合/Java集合/" rel="prev" title="Java集合">
+                Java集合 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Kokio Yao">
+            
+              <p class="site-author-name" itemprop="name">Kokio Yao</p>
+              <div class="site-description motion-element" itemprop="description">一个所谓的乖小孩，突然想有自己的喜好</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/kokioyao" title="GitHub &rarr; https://github.com/kokioyao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:ykkwpp@gmail.com" title="E-Mail &rarr; mailto:ykkwpp@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://twitter.com/kokioyao" title="Twitter &rarr; https://twitter.com/kokioyao" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://leetcode-cn.com/kokio/" title="Leetcode &rarr; https://leetcode-cn.com/kokio/" rel="noopener" target="_blank"><i class="fa fa-fw fa-pencil-square-o"></i>Leetcode</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-paper-plane"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/EbookFoundation/free-programming-books" title="https://github.com/EbookFoundation/free-programming-books" rel="noopener" target="_blank">EBook</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com" title="http://example.com" rel="noopener" target="_blank">title</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+<div id="music163player" class="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=550661&auto=1&height=66">
+    </iframe>
+</div>
+
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象和面向过程"><span class="nav-number">1.</span> <span class="nav-text">面向对象和面向过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#面向过程"><span class="nav-number">1.1.</span> <span class="nav-text">面向过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#面向对象"><span class="nav-number">1.2.</span> <span class="nav-text">面向对象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象的三大特性"><span class="nav-number">2.</span> <span class="nav-text">面向对象的三大特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#封装"><span class="nav-number">2.1.</span> <span class="nav-text">封装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#继承"><span class="nav-number">2.2.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多态"><span class="nav-number">2.3.</span> <span class="nav-text">多态</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#static关键字"><span class="nav-number">3.</span> <span class="nav-text">static关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#static特点"><span class="nav-number">3.1.</span> <span class="nav-text">static特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#static使用场景"><span class="nav-number">3.2.</span> <span class="nav-text">static使用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#static的优缺点"><span class="nav-number">3.3.</span> <span class="nav-text">static的优缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构造代码块"><span class="nav-number">3.4.</span> <span class="nav-text">构造代码块</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类的执行顺序"><span class="nav-number">4.</span> <span class="nav-text">类的执行顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final关键字"><span class="nav-number">5.</span> <span class="nav-text">final关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#哪里使用"><span class="nav-number">5.1.</span> <span class="nav-text">哪里使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关键字super"><span class="nav-number">6.</span> <span class="nav-text">关键字super</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内部类"><span class="nav-number">7.</span> <span class="nav-text">内部类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#成员内部类："><span class="nav-number">7.1.</span> <span class="nav-text">成员内部类：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#局部内部类："><span class="nav-number">7.2.</span> <span class="nav-text">局部内部类：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#匿名内部类："><span class="nav-number">7.3.</span> <span class="nav-text">匿名内部类：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kokio Yao</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">161k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">2:27</span>
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a></div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-bolt"></i>
+    </span>
+    <span class="site-uv" title="总到访">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-fire"></i>
+    </span>
+    <span class="site-pv" title="总热量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'FO5i6MLQkkz4gFGzkfqs9REQ-gzGzoHsz',
+    appKey: '866LBR1GPYXr5AqhxvtYrfYN',
+    placeholder: '大哥，您说',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="软件设计七大原则软件设计中，怎样提高系统的可维护性和可复用性是面向对象设计需要解决的核心问题之一。面向对象设计原则是实现可维护性和可复用性的基础，每一个原则都蕴含了面向对象设计的思想，可从不同的视角提升一个软件结构的设计水平。这些原则蕴含着很多设计模式中，也是我们用于评价一个设计模式使用效果的重要指标之一。">
+<meta name="keywords" content="软件设计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件设计七大原则">
+<meta property="og:url" content="http://kokioyao.github.io/软件/软件设计七大原则/index.html">
+<meta property="og:site_name" content="面壁墙">
+<meta property="og:description" content="软件设计七大原则软件设计中，怎样提高系统的可维护性和可复用性是面向对象设计需要解决的核心问题之一。面向对象设计原则是实现可维护性和可复用性的基础，每一个原则都蕴含了面向对象设计的思想，可从不同的视角提升一个软件结构的设计水平。这些原则蕴含着很多设计模式中，也是我们用于评价一个设计模式使用效果的重要指标之一。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-20T06:40:09.448Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="软件设计七大原则">
+<meta name="twitter:description" content="软件设计七大原则软件设计中，怎样提高系统的可维护性和可复用性是面向对象设计需要解决的核心问题之一。面向对象设计原则是实现可维护性和可复用性的基础，每一个原则都蕴含了面向对象设计的思想，可从不同的视角提升一个软件结构的设计水平。这些原则蕴含着很多设计模式中，也是我们用于评价一个设计模式使用效果的重要指标之一。">
+
+
+
+
+
+
+  <link rel="canonical" href="http://kokioyao.github.io/软件/软件设计七大原则/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>软件设计七大原则 | 面壁墙</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">面壁墙</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">意志のあるところに道は開ける</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-book">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/book/" rel="section"><i class="menu-item-icon fa fa-fw fa-book"></i> <br>资料</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-plus">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/plus/" rel="section"><i class="menu-item-icon fa fa-fw fa-plus"></i> <br>自省</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kokioyao.github.io/软件/软件设计七大原则/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kokio Yao">
+      <meta itemprop="description" content="一个所谓的乖小孩，突然想有自己的喜好">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面壁墙">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">软件设计七大原则
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-17 20:23:42" itemprop="dateCreated datePublished" datetime="2018-09-17T20:23:42+08:00">2018-09-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新</span>
+                
+                <time title="修改时间：2019-03-20 14:40:09" itemprop="dateModified" datetime="2019-03-20T14:40:09+08:00">2019-03-20</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/软件/" itemprop="url" rel="index"><span itemprop="name">软件</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论：</span>
+                <a href="/软件/软件设计七大原则/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/软件/软件设计七大原则/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-fire"></i>
+             热度： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">2.4k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">2 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="软件设计七大原则"><a href="#软件设计七大原则" class="headerlink" title="软件设计七大原则"></a>软件设计七大原则</h2><p>软件设计中，怎样提高系统的可维护性和可复用性是面向对象设计需要解决的核心问题之一。面向对象设计原则是实现可维护性和可复用性的基础，每一个原则都蕴含了面向对象设计的思想，可从不同的视角提升一个软件结构的设计水平。这些原则蕴含着很多设计模式中，也是我们用于评价一个设计模式使用效果的重要指标之一。<br><a id="more"></a></p>
+<h3 id="1-开放封闭原则"><a href="#1-开放封闭原则" class="headerlink" title="1.开放封闭原则"></a>1.开放封闭原则</h3><p>就是对扩展开放，而对修改封闭。其是所有面向对象原则的核心。软件设计追求的是易于扩展复用、封装实现细节、降低耦合度，开放封闭原则是实现这一目标的最直接的体现。（1）开放，对功能或需求的扩展开放，当有新需求或变化时，可依据现有的程序代码进行扩展，以便适应新要求；（2）封闭，意味着一旦设计完成，便可以独立工作，不能对其进行任何的修改。</p>
+<h3 id="2-单一职责原则"><a href="#2-单一职责原则" class="headerlink" title="2.单一职责原则"></a>2.单一职责原则</h3><p>很好理解，一个类只负责一项职责。针对一个类，其承担的职责越多，被复用的可能性就越小。如果类承担的职责很多，就意味着这些职责耦合在了一起，若其中一项职责发生变化，就可能会影响其他职责的处理。</p>
+<h3 id="3-里式替换原则"><a href="#3-里式替换原则" class="headerlink" title="3.里式替换原则"></a>3.里式替换原则</h3><p>里氏代换原则是由2008年图灵奖得主、美国第一位计算机科学女博士Barbara Liskov教授和卡内基·梅隆大学JeannetteWing教授提出，其严格的表述为：如果对每一个类型为S的对象o1，都有类型为T的对象o2，使得以T定义的所有程序P在所有的对象o1代换o2时，程序P的行为没有变化，那么类型S是类型T的子类型。这种描述让人非常难以理解，换一句更通俗易懂的解释就是：所有基类出现的地方，都可以使用子类进行替换，子类可以扩展父类的功能，但不能改变父类原有的功能。也就是说基类对象出现的地方，子类对象一定可以出现，但反过来则不行。比如我喜欢车子，那么意味着我喜欢自行车，但反过来就不一定，因为我喜欢自行车并不代表就喜欢所有的车子。</p>
+<h3 id="4-接口隔离原则"><a href="#4-接口隔离原则" class="headerlink" title="4.接口隔离原则"></a>4.接口隔离原则</h3><p>有两项含义：（1）客户需要什么样的接口，就提供什么样的接口，不需要的就删除掉；（2）类之间的依赖关系应建立在最小的接口上。也就是说，接口中的方法要尽量的少，接口功能要尽量的细分。</p>
+<h3 id="5-依赖倒置原则"><a href="#5-依赖倒置原则" class="headerlink" title="5.依赖倒置原则"></a>5.依赖倒置原则</h3><p>依赖倒转原则就是要依赖于抽象，不要依赖于实现。高层模块不依赖于底层模块，二者都依赖其抽象；抽象不依赖于细节，细节应该依赖抽象。（Abstractions should not depend upon details. Details should depend uponabstractions.）要针对接口编程，不要针对实现编程。（Program to an interface, not an implementation.）也就是说应当使用接口和抽象类进行变量类型声明、参数类型声明、方法返还类型说明，以及数据类型的转换等。而不要用具体类进行变量的类型声明、参数类型声明、方法返还类型说明，以及数据类型的转换等。要保证做到这一点，一个具体类应当只实现接口和抽象类中声明过的方法，而不要给出多余的方法。</p>
+<p>传统的过程性系统的设计办法倾向于使高层次的模块依赖于低层次的模块，抽象层次依赖于具体层次。倒转原则就是把这个错误的依赖关系倒转过来。</p>
+<p>面向对象设计的重要原则是创建抽象化，并且从抽象化导出具体化，具体化给出不同的实现。继承关系就是一种从抽象化到具体化的导出。</p>
+<p>抽象层包含的应该是应用系统的商务逻辑和宏观的、对整个系统来说重要的战略性决定，是必然性的体现。具体层次含有的是一些次要的与实现有关的算法和逻辑，以及战术性的决定，带有相当大的偶然性选择。具体层次的代码是经常变动的，不能避免出现错误。</p>
+<p>从复用的角度来说，高层次的模块是应当复用的，而且是复用的重点，因为它含有一个应用系统最重要的宏观商务逻辑，是较为稳定的。而在传统的过程性设计中，复用则侧重于具体层次模块的复用。</p>
+<p>依赖倒转原则则是对传统的过程性设计方法的“倒转”，是高层次模块复用及其可维护性的有效规范。</p>
+<p>特例：对象的创建过程是违背“开—闭”原则以及依赖倒转原则的，但通过工厂模式，能很好地解决对象创建过程中的依赖倒转问题。</p>
+<h3 id="6-迪米特法则"><a href="#6-迪米特法则" class="headerlink" title="6.迪米特法则"></a>6.迪米特法则</h3><p>迪米特法则，也可称为最少知识原则。一个类对自己所依赖的类知道的越少越好，对于被依赖的类，不论其实现逻辑如何，都将这些逻辑封装在自己的范围内，对外通过public(protected可以通过子类访问)方法进行提供服务，否则不对外泄露任何信息，这也体现了数据保密性。</p>
+<h3 id="7-组合-聚合复用原则"><a href="#7-组合-聚合复用原则" class="headerlink" title="7.组合/聚合复用原则"></a>7.组合/聚合复用原则</h3><p>简单的说是，尽量使用对象的组合/聚合，而不是继承来达到复用的目的。</p>
+<p>组合和聚合都是对象建模中关联关系的一种。聚合表示整体与部分的关系，表示“含有”，整体由部分组合而成，部分可以脱离整体作为一个独立的个体存在。组合则是一种更强的聚合，部分组成整体，而且不可分割，部分不能脱离整体而单独存在。在合成关系中，部分和整体的生命周期一样，组合的新的对象完全支配其组成部分，包括他们的创建和销毁。一个合成关系中成分对象是不能与另外一个合成关系共享。</p>
+<p> 组合/聚合和继承是实现代码复用的两种基本途径，在设计过程中尽量使用组合/聚合，而不是继承。因为继承使得基类与子类有较强的耦合性，通常情况下基类的内部细节对子类来说是可见的，这样基类的实现细节会暴露给子类，破坏了系统的封装性。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>开闭原则是所有面向对象原则的核心；里式替换原则是实现开闭原则的重要方式之一；依赖倒置原则是系统抽象化的具体实现，其是面向对象设计的主要实现机制之一；接口隔离原则要求接口的方法尽量少，接口尽量细化；迪米特法则降低系统的耦合度，其使得一个模块的修改尽量少的影响其他模块，扩展会相对容易；在软件设计中，尽量使用组合/聚合而不是继承达到代码复用的目的。</p>
+<blockquote>
+<p>这是一篇没有我灵魂的文章</p>
+</blockquote>
+<p><a href="http://www.cnblogs.com/lhws/archive/2012/03/10/2389189.html" target="_blank" rel="noopener">设计模式六大原则</a><br><a href="https://blog.csdn.net/qq_26442553/article/details/78731081" target="_blank" rel="noopener">软件开发时设计时要遵循的原则</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------<i class="fa fa-hand-o-right"></i> 感谢阅读-------------</div>
+    
+</div>
+
+      
+    </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/软件设计/" rel="tag"># 软件设计</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Java/IO/JavaIO/" rel="next" title="Java IO">
+                <i class="fa fa-chevron-left"></i> Java IO
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Java/JavaWeb/JavaWeb基础/" rel="prev" title="JavaWeb基础">
+                JavaWeb基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Kokio Yao">
+            
+              <p class="site-author-name" itemprop="name">Kokio Yao</p>
+              <div class="site-description motion-element" itemprop="description">一个所谓的乖小孩，突然想有自己的喜好</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/kokioyao" title="GitHub &rarr; https://github.com/kokioyao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:ykkwpp@gmail.com" title="E-Mail &rarr; mailto:ykkwpp@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://twitter.com/kokioyao" title="Twitter &rarr; https://twitter.com/kokioyao" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://leetcode-cn.com/kokio/" title="Leetcode &rarr; https://leetcode-cn.com/kokio/" rel="noopener" target="_blank"><i class="fa fa-fw fa-pencil-square-o"></i>Leetcode</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-paper-plane"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/EbookFoundation/free-programming-books" title="https://github.com/EbookFoundation/free-programming-books" rel="noopener" target="_blank">EBook</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com" title="http://example.com" rel="noopener" target="_blank">title</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+<div id="music163player" class="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=550661&auto=1&height=66">
+    </iframe>
+</div>
+
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#软件设计七大原则"><span class="nav-number">1.</span> <span class="nav-text">软件设计七大原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-开放封闭原则"><span class="nav-number">1.1.</span> <span class="nav-text">1.开放封闭原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-单一职责原则"><span class="nav-number">1.2.</span> <span class="nav-text">2.单一职责原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-里式替换原则"><span class="nav-number">1.3.</span> <span class="nav-text">3.里式替换原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-接口隔离原则"><span class="nav-number">1.4.</span> <span class="nav-text">4.接口隔离原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-依赖倒置原则"><span class="nav-number">1.5.</span> <span class="nav-text">5.依赖倒置原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-迪米特法则"><span class="nav-number">1.6.</span> <span class="nav-text">6.迪米特法则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-组合-聚合复用原则"><span class="nav-number">1.7.</span> <span class="nav-text">7.组合/聚合复用原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.8.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kokio Yao</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">161k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">2:27</span>
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a></div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-bolt"></i>
+    </span>
+    <span class="site-uv" title="总到访">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-fire"></i>
+    </span>
+    <span class="site-pv" title="总热量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'FO5i6MLQkkz4gFGzkfqs9REQ-gzGzoHsz',
+    appKey: '866LBR1GPYXr5AqhxvtYrfYN',
+    placeholder: '大哥，您说',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="集合的简单笔记，首先了解Java的数组有一下几个特点：  只能存储同一种类型的元素。  除了Object类型的数组以外。 数组一旦初始化长度固定。 数组中元素与元素之间的内存地址是连续的。  因此很多方面数组是不够的，因此就需要集合。">
+<meta name="keywords" content="Java,集合,Map,List">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java集合">
+<meta property="og:url" content="http://kokioyao.github.io/Java/集合/Java集合/index.html">
+<meta property="og:site_name" content="面壁墙">
+<meta property="og:description" content="集合的简单笔记，首先了解Java的数组有一下几个特点：  只能存储同一种类型的元素。  除了Object类型的数组以外。 数组一旦初始化长度固定。 数组中元素与元素之间的内存地址是连续的。  因此很多方面数组是不够的，因此就需要集合。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-19T17:42:55.616Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java集合">
+<meta name="twitter:description" content="集合的简单笔记，首先了解Java的数组有一下几个特点：  只能存储同一种类型的元素。  除了Object类型的数组以外。 数组一旦初始化长度固定。 数组中元素与元素之间的内存地址是连续的。  因此很多方面数组是不够的，因此就需要集合。">
+
+
+
+
+
+
+  <link rel="canonical" href="http://kokioyao.github.io/Java/集合/Java集合/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Java集合 | 面壁墙</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">面壁墙</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">意志のあるところに道は開ける</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-book">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/book/" rel="section"><i class="menu-item-icon fa fa-fw fa-book"></i> <br>资料</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-plus">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/plus/" rel="section"><i class="menu-item-icon fa fa-fw fa-plus"></i> <br>自省</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kokioyao.github.io/Java/集合/Java集合/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kokio Yao">
+      <meta itemprop="description" content="一个所谓的乖小孩，突然想有自己的喜好">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面壁墙">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java集合
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-20 19:40:29" itemprop="dateCreated datePublished" datetime="2018-08-20T19:40:29+08:00">2018-08-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新</span>
+                
+                <time title="修改时间：2019-03-20 01:42:55" itemprop="dateModified" datetime="2019-03-20T01:42:55+08:00">2019-03-20</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/集合/" itemprop="url" rel="index"><span itemprop="name">集合</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论：</span>
+                <a href="/Java/集合/Java集合/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Java/集合/Java集合/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-fire"></i>
+             热度： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">5.4k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">5 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>集合的简单笔记，首先了解Java的数组有一下几个特点：</p>
+<ol>
+<li>只能存储同一种类型的元素。  除了Object类型的数组以外。</li>
+<li>数组一旦初始化长度固定。</li>
+<li>数组中元素与元素之间的内存地址是连续的。</li>
+</ol>
+<p>因此很多方面数组是不够的，因此就需要集合。</p>
+<a id="more"></a>
+<h2 id="集合体系"><a href="#集合体系" class="headerlink" title="集合体系"></a>集合体系</h2><h2 id="Collection单列集合"><a href="#Collection单列集合" class="headerlink" title="Collection单列集合"></a>Collection单列集合</h2><h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><p><strong>如果是实现了List接口的集合类具备的特点： 有序、 元素可重复</strong></p>
+<ul>
+<li>ArrayList ： ArrayList底层是维护了一个Object数组去实现的，特点：查询速度快，增删慢    </li>
+<li>LinkedList：底层是使用了链表数据结构实现的， 特点：查询速度慢，增删快</li>
+<li>Vector： 底层也是使用一个Object数组去实现的，但是Vector线程安全，操作效率低</li>
+</ul>
+<p>ArrayList的底层是使用了一个Object数组去实现的，往ArrayList存储数据的时候，数据实际上是存储到了Object数组中， 使用无参构造函数是，Object数组的初始化容量是10， 当容量不够使用时会自动自增原来的0.5倍。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Default initial capacity.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_CAPACITY = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// overflow-conscious code</span></span><br><span class="line">    <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">    <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">    <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Vector和ArrayList的区别："><a href="#Vector和ArrayList的区别：" class="headerlink" title="Vector和ArrayList的区别："></a>Vector和ArrayList的区别：</h4><p>相同点：<br>   Vector和ArrayList的底层都是使用Object数组去实现的</p>
+<p>不同点：</p>
+<pre><code>1. Vector是线程安全的，操作效率低，ArrayList是线程非安全的，操作效率高 
+2. Vector是jdk1.0出现的，ArrayList是jdk1.2出现的 
+</code></pre><h3 id="List接口下特有的方法："><a href="#List接口下特有的方法：" class="headerlink" title="List接口下特有的方法："></a>List接口下特有的方法：</h3><ol>
+<li>增加<br>add(int index, E  element)  指定索引值添加元素<br>addAll(int index, Collection c) 指定索引值把一个集合的元素添加到另外一个集合中</li>
+<li>删除<br>remove(int index) 制定索引值删除元素</li>
+<li>修改<br>set(int index, E element) 指定索引值修改元素</li>
+<li>获取<br>get(int index) 根据索引值获取元素<br>indexOf(Object o)  查找指定元素第一次出现的索引值，如果不包含制定的元素则返回-1表示。<br>lastIndexOf(Object o) 查找指定元素最后一次出现的索引值，如果不包含指定的元素则返回-1表示。<br>subList(int fromIndex, int toIndex) 指定开始于结束的索引值截取集合中的元素，返回</li>
+<li>迭代<br>iterator() 获取集合中的迭代期，迭代期的作用就是用于抓取集合中的元素<br>迭代器常用的方法<ul>
+<li>next() : 先获取当前游标指向的元素，然后游标向下移动一个单位）</li>
+<li>hasNext() : 有没有元素可遍历</li>
+<li>remove() ： 移出迭代器最后一次返回的元素<br>listIterator()<br>迭代特有的方法：</li>
+<li>hasPrevious() : 问是否有上一个元素</li>
+<li>previous() : 游标先向上移动一个单位，然后获取当前游标指向的元素</li>
+<li>add(E e) : 把元素添加到当前游标指向的位置上</li>
+<li>set(E e) ： 使用指定的元素代替迭代期最后一次返回的元素</li>
+</ul>
+</li>
+</ol>
+<p><strong>List接口特有的方法都是操作索引值的。</strong></p>
+<h4 id="迭代器在迭代的过程中要注意的事项："><a href="#迭代器在迭代的过程中要注意的事项：" class="headerlink" title="迭代器在迭代的过程中要注意的事项："></a>迭代器在迭代的过程中要注意的事项：</h4><ol>
+<li>迭代器在迭代的过程中不准使用集合对象改变集合的元素个数。 否则会报出：ConcurrentModificationException</li>
+<li>在迭代过程中如果需要改变集合中的元素个数，只能使用迭代器的方法去改变。</li>
+</ol>
+<h3 id="LinkedList特有的方法："><a href="#LinkedList特有的方法：" class="headerlink" title="LinkedList特有的方法："></a>LinkedList特有的方法：</h3><ol>
+<li>方法介绍<ul>
+<li>addFirst(E e) 把元素添加到集合的首位置</li>
+<li>addLast(E e) 把元素添加到集合的末尾处</li>
+<li>getFirst() 获取集合的首位置元素</li>
+<li>getLast() 获取集合的末尾元素</li>
+<li>removeFirst() 删除集合的首元素</li>
+<li>removeLast() 删除集合的末尾元素</li>
+</ul>
+</li>
+<li>数据结构<ol>
+<li>栈：先进后出<br>push();<br>pop();</li>
+<li>队列：先进先出<br>offer()<br>poll()</li>
+</ol>
+</li>
+<li>返回逆序的迭代器对象<br>descendingIterator() </li>
+</ol>
+<h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><p><strong>如果实现了Set接口的集合类具备的特点： 无序、元素不可重复</strong></p>
+<ul>
+<li>HashSet 底层是使用了哈西表支持的，特点：存取的速度快。</li>
+<li>TreeSet 底层使用了红黑树(二叉树)数据结构实现的，特点：可以对元素进行排序存储</li>
+</ul>
+<h3 id="HashSet存储原理："><a href="#HashSet存储原理：" class="headerlink" title="HashSet存储原理："></a>HashSet存储原理：</h3><p>往HashSet存储元素的时候，首先HashSet会先调用元素的hashCode方法，得到元素的哈希码值，然后通过哈希码就额可以算出该元素在哈希表中的存储位置</p>
+<p>情况1： 如果根据元素的哈希码值算出的位置目前没有任何匀速存储，那么该元素可以直接存储到哈希表中</p>
+<p>情况2： 根据元素的哈希码算出的位置目前如果已经存在了其他元素，那么会调用该元素的equals方法与这个位置的元素再比较一次，如果<br>equals方法返回的是true，那么该元素则被视为重复元素，不允许添加，如果equals方法返回的是false，那么该元素也可以运行被添加</p>
+<h3 id="TreeSet-要注意的事项："><a href="#TreeSet-要注意的事项：" class="headerlink" title="TreeSet 要注意的事项："></a>TreeSet 要注意的事项：</h3><ol>
+<li>如果往TreeSet添加元素的时候，如果元素本身具备自然顺序的特性，那么treeset就会按照元素自然顺序进行排序存储</li>
+<li>如果往TreeSet添加元素的时候，如果元素本身不具备自然顺序的特性，那么元素所属的类就必须要实现Comparable接口，把元素的比较规则定义在compareTo方法中</li>
+<li>在TreeSet中如果比较的方法返回的是0，该元素则被视为重复元素，不允许添加</li>
+<li>在TreeSet添加元素的时候，如果元素本身不具备自然顺序的特性，而且元素所属的类没有实现Compareable接口，那么在创建TreeSet对象的时候就必须要传入一个比较器对象</li>
+<li>如果元素已经实现了Comparable接口，当的创建TreeSet对象的时候又传入了比较器对象，那么比较规则优先使用比较器的</li>
+</ol>
+<p>推荐使用：比较器<br>自然排序（实现comparable的compareTo的方法）<br>比较排序（Comparator的compare方法 ）</p>
+<h2 id="Map双列集合"><a href="#Map双列集合" class="headerlink" title="Map双列集合"></a>Map双列集合</h2><p><strong>Map 实现了Map接口的集合类具备的特点： 存储的数据都是以键值对的形式存在的，键(key)不能重复，值(value)可以重复</strong></p>
+<h3 id="Hashtable"><a href="#Hashtable" class="headerlink" title="Hashtable"></a>Hashtable</h3><p>底层是哈希表数据结构，线程是同步的，不可以存入null键，null值。效率较低，被HashMap 替代。</p>
+<h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><p>底层是哈希表数据结构，线程是不同步的，可以存入null键，null值。要保证键的唯一性，需要覆盖hashCode方法，和equals方法。</p>
+<h3 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h3><p>该子类基于哈希表又融入了链表。可以Map集合进行增删提高效率。</p>
+<h3 id="TreeMap"><a href="#TreeMap" class="headerlink" title="TreeMap"></a>TreeMap</h3><p>底层是二叉树数据结构。可以对map集合中的键进行排序。需要使用Comparable或者Comparator 进行比较排序。return 0，来判断键的唯一性。</p>
+<h3 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h3><p>JDK1.7时，使用的是segment锁分段机制，而到了JDK1.8使用了CAS算法。</p>
+<h3 id="HashTable和HashMap和ConcurrentHashMap的区别"><a href="#HashTable和HashMap和ConcurrentHashMap的区别" class="headerlink" title="HashTable和HashMap和ConcurrentHashMap的区别"></a>HashTable和HashMap和ConcurrentHashMap的区别</h3><p>HashTable</p>
+<ul>
+<li>底层数组+链表实现，无论key还是value都不能为null，线程安全，实现线程安全的方式是在修改数据时锁住整个HashTable，效率低，ConcurrentHashMap做了相关优化</li>
+<li>初始size为11，扩容：newsize = olesize*2+1</li>
+<li>计算index的方法：index = (hash &amp; 0x7FFFFFFF) % tab.length</li>
+</ul>
+<p>HashMap</p>
+<ul>
+<li>底层数组+链表实现，可以存储null键和null值，线程不安全</li>
+<li>初始size为16，扩容：newsize = oldsize*2，size一定为2的n次幂</li>
+<li>扩容针对整个Map，每次扩容时，原来数组中的元素依次重新计算存放位置，并重新插入</li>
+<li>插入元素后才判断该不该扩容，有可能无效扩容（插入后如果扩容，如果没有再次插入，就会产生无效扩容）</li>
+<li>当Map中元素总数超过Entry数组的75%，触发扩容操作，为了减少链表长度，元素分配更均匀</li>
+<li>计算index方法：index = hash &amp; (tab.length – 1)</li>
+</ul>
+<p>ConcurrentHashMap</p>
+<ul>
+<li>底层采用分段的数组+链表实现，线程安全</li>
+<li>通过把整个Map分为N个Segment，可以提供相同的线程安全，但是效率提升N倍，默认提升16倍。(读操作不加锁，由于HashEntry的value变量是 volatile的，也能保证读取到最新的值。)</li>
+<li>Hashtable的synchronized是针对整张Hash表的，即每次锁住整张表让线程独占，ConcurrentHashMap允许多个修改操作并发进行，其关键在于使用了锁分离技术</li>
+<li>有些方法需要跨段，比如size()和containsValue()，它们可能需要锁定整个表而而不仅仅是某个段，这需要按顺序锁定所有段，操作完毕后，又按顺序释放所有段的锁</li>
+<li>扩容：段内扩容（段内元素超过该段对应Entry数组长度的75%触发扩容，不会对整个Map进行扩容），插入前检测需不需要扩容，有效避免无效扩容</li>
+</ul>
+<h3 id="Map接口常用方法"><a href="#Map接口常用方法" class="headerlink" title="Map接口常用方法"></a>Map接口常用方法</h3><pre><code class="java">- 增
+  - put(K key,V value)添加元素到map集合，返回以前和key关联的值，如果没有针对key的映射关系，则返回<span class="keyword">null</span>。
+  - putAll(Map&lt;? extends K, ? extends V&gt; m)
+- 删 
+  - clear();
+  - remove(Object key);
+- 判断
+  - containsKey(Object key)
+  - containsValue(Object value)
+  - isEmpty()
+- 获取
+  - get(Object key)
+  - size()
+- 迭代
+  - keySet();
+  - values();
+  - entrySet();
+    <span class="comment">//常用的循环迭代方式</span>
+    Set&lt;Map.Entry&lt;String,String&gt;&gt; entrys = map.entrySet();
+    Iterator&lt;Map.Entry&lt;String,String&gt;&gt; it = entrys.iterator();
+    <span class="keyword">while</span>(it.hasNext()){
+        Map.Entry&lt;String,String&gt; entry = it.next();
+        System.out.println(<span class="string">"键"</span> + entry.getKey() + <span class="string">"值"</span> + entry.getValue());
+    }
+</code></pre>
+<h2 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h2><h3 id="为什么使用泛型"><a href="#为什么使用泛型" class="headerlink" title="为什么使用泛型"></a>为什么使用泛型</h3><ol>
+<li>可以把运行时出现的问题提前至编译时</li>
+<li>避免了无谓的强制类型转换</li>
+</ol>
+<h3 id="泛型类要注意的事项"><a href="#泛型类要注意的事项" class="headerlink" title="泛型类要注意的事项"></a>泛型类要注意的事项</h3><ol>
+<li>类上声明的自定义泛型的具体数据类型是在使用该类创建对象的时候定义的</li>
+<li>如果一个类已经声明了自定义泛型，该类在创建对象的时候没有指定自定义泛型的具体数据类型，那么默认则为Object类型</li>
+<li>静态的方法不能使用类上声明的自定义泛型，如果需要使用自定义泛型只能在自己方法上声明</li>
+</ol>
+<h3 id="泛型接口："><a href="#泛型接口：" class="headerlink" title="泛型接口："></a>泛型接口：</h3><p>泛型接口的定义格式： </p>
+<p>interface 接口名&lt;声明自定义的泛型&gt;{</p>
+<p>}</p>
+<h4 id="泛型接口要注意的细节："><a href="#泛型接口要注意的细节：" class="headerlink" title="泛型接口要注意的细节："></a>泛型接口要注意的细节：</h4><ol>
+<li>接口上自定义泛型的具体数据类型是在实现该接口的时候确定的</li>
+<li>如果一个接口已经自定义了泛型，在实现该接口的时候没有指定自定义泛型的具体数据类型，那么默认为Object类型</li>
+</ol>
+<h3 id="泛型上下限："><a href="#泛型上下限：" class="headerlink" title="泛型上下限："></a>泛型上下限：</h3><p>泛型的通配符： ？</p>
+<p>？ super Integer 泛型的下限  只能用于Integer或者是Integer的父类类型数据</p>
+<p>？ extends Number 泛型的上限  只能用于Number或者是Number的子类类型数据</p>
+<hr>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------<i class="fa fa-hand-o-right"></i> 感谢阅读-------------</div>
+    
+</div>
+
+      
+    </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/集合/" rel="tag"># 集合</a>
+          
+            <a href="/tags/Map/" rel="tag"># Map</a>
+          
+            <a href="/tags/List/" rel="tag"># List</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Java/面向对象/Java面向对象/" rel="next" title="Java面向对象">
+                <i class="fa fa-chevron-left"></i> Java面向对象
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Java/IO/JavaIO/" rel="prev" title="Java IO">
+                Java IO <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Kokio Yao">
+            
+              <p class="site-author-name" itemprop="name">Kokio Yao</p>
+              <div class="site-description motion-element" itemprop="description">一个所谓的乖小孩，突然想有自己的喜好</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/kokioyao" title="GitHub &rarr; https://github.com/kokioyao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:ykkwpp@gmail.com" title="E-Mail &rarr; mailto:ykkwpp@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://twitter.com/kokioyao" title="Twitter &rarr; https://twitter.com/kokioyao" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://leetcode-cn.com/kokio/" title="Leetcode &rarr; https://leetcode-cn.com/kokio/" rel="noopener" target="_blank"><i class="fa fa-fw fa-pencil-square-o"></i>Leetcode</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-paper-plane"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/EbookFoundation/free-programming-books" title="https://github.com/EbookFoundation/free-programming-books" rel="noopener" target="_blank">EBook</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com" title="http://example.com" rel="noopener" target="_blank">title</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+<div id="music163player" class="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=550661&auto=1&height=66">
+    </iframe>
+</div>
+
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#集合体系"><span class="nav-number">1.</span> <span class="nav-text">集合体系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Collection单列集合"><span class="nav-number">2.</span> <span class="nav-text">Collection单列集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#List"><span class="nav-number">2.1.</span> <span class="nav-text">List</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Vector和ArrayList的区别："><span class="nav-number">2.1.1.</span> <span class="nav-text">Vector和ArrayList的区别：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List接口下特有的方法："><span class="nav-number">2.2.</span> <span class="nav-text">List接口下特有的方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#迭代器在迭代的过程中要注意的事项："><span class="nav-number">2.2.1.</span> <span class="nav-text">迭代器在迭代的过程中要注意的事项：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LinkedList特有的方法："><span class="nav-number">2.3.</span> <span class="nav-text">LinkedList特有的方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set"><span class="nav-number">2.4.</span> <span class="nav-text">Set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashSet存储原理："><span class="nav-number">2.5.</span> <span class="nav-text">HashSet存储原理：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TreeSet-要注意的事项："><span class="nav-number">2.6.</span> <span class="nav-text">TreeSet 要注意的事项：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map双列集合"><span class="nav-number">3.</span> <span class="nav-text">Map双列集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hashtable"><span class="nav-number">3.1.</span> <span class="nav-text">Hashtable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap"><span class="nav-number">3.2.</span> <span class="nav-text">HashMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LinkedHashMap"><span class="nav-number">3.3.</span> <span class="nav-text">LinkedHashMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TreeMap"><span class="nav-number">3.4.</span> <span class="nav-text">TreeMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ConcurrentHashMap"><span class="nav-number">3.5.</span> <span class="nav-text">ConcurrentHashMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashTable和HashMap和ConcurrentHashMap的区别"><span class="nav-number">3.6.</span> <span class="nav-text">HashTable和HashMap和ConcurrentHashMap的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Map接口常用方法"><span class="nav-number">3.7.</span> <span class="nav-text">Map接口常用方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛型"><span class="nav-number">4.</span> <span class="nav-text">泛型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么使用泛型"><span class="nav-number">4.1.</span> <span class="nav-text">为什么使用泛型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型类要注意的事项"><span class="nav-number">4.2.</span> <span class="nav-text">泛型类要注意的事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型接口："><span class="nav-number">4.3.</span> <span class="nav-text">泛型接口：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#泛型接口要注意的细节："><span class="nav-number">4.3.1.</span> <span class="nav-text">泛型接口要注意的细节：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型上下限："><span class="nav-number">4.4.</span> <span class="nav-text">泛型上下限：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kokio Yao</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">161k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">2:27</span>
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a></div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-bolt"></i>
+    </span>
+    <span class="site-uv" title="总到访">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-fire"></i>
+    </span>
+    <span class="site-pv" title="总热量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'FO5i6MLQkkz4gFGzkfqs9REQ-gzGzoHsz',
+    appKey: '866LBR1GPYXr5AqhxvtYrfYN',
+    placeholder: '大哥，您说',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -443,6 +443,10 @@
           
 
   
+    <div class="comments" id="comments">
+    </div>
+
+  
 
 
 
@@ -472,7 +476,7 @@
               <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Kokio Yao">
             
               <p class="site-author-name" itemprop="name">Kokio Yao</p>
-              <div class="site-description motion-element" itemprop="description">一个所谓的乖小孩，突然想活的有自己的喜好</div>
+              <div class="site-description motion-element" itemprop="description">一个所谓的乖小孩，突然想有自己的喜好</div>
           </div>
 
           
@@ -482,7 +486,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-count">20</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -513,7 +517,37 @@
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">22</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -544,7 +578,51 @@
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -589,7 +667,7 @@
                   
                     
                   
-                  <a href="https://weibo.com/footman77" title="Weibo &rarr; https://weibo.com/footman77" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  <a href="https://twitter.com/kokioyao" title="Twitter &rarr; https://twitter.com/kokioyao" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
                 </span>
               
                 <span class="links-of-author-item">
@@ -600,7 +678,7 @@
                   
                     
                   
-                  <a href="https://twitter.com/kokioyao" title="Twitter &rarr; https://twitter.com/kokioyao" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  <a href="https://leetcode-cn.com/kokio/" title="Leetcode &rarr; https://leetcode-cn.com/kokio/" rel="noopener" target="_blank"><i class="fa fa-fw fa-pencil-square-o"></i>Leetcode</a>
                 </span>
               
             </div>
@@ -633,6 +711,11 @@
             
           
           
+<div id="music163player" class="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=550661&auto=1&height=66">
+    </iframe>
+</div>
+
 
         </div>
       </div>
@@ -664,7 +747,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">47k</span>
+    <span title="站点总字数">161k</span>
   
 
   
@@ -673,10 +756,10 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">43 分钟</span>
+    <span title="站点阅读时长">2:27</span>
   
 </div>
-
+<!--
 
   <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
 
@@ -684,7 +767,7 @@
 
   <span class="post-meta-divider">|</span>
 
-
+-->
 
   <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a></div>
 
@@ -823,6 +906,36 @@
   
 
   
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'FO5i6MLQkkz4gFGzkfqs9REQ-gzGzoHsz',
+    appKey: '866LBR1GPYXr5AqhxvtYrfYN',
+    placeholder: '大哥，您说',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
 
 
   

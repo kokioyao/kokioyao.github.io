@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Throwable通常会在每个项目中建立属于每个服务的自定义服务异常，或者整个项目的自定义异常，在出现问题时能够更加快速准确的确定错误位置。  Throwable常用的方法： toString() 返回的是用于描述该异常情况的类的完整类名。 getMessage() 返回创建Throwable对象的时候传入的消息字符串的,  printStackTrace() 打印异常的栈信息。">
+<meta name="keywords" content="Java,自学笔记,异常">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java异常">
+<meta property="og:url" content="http://kokioyao.github.io/Java/Throwable/JavaThrowable/index.html">
+<meta property="og:site_name" content="面壁墙">
+<meta property="og:description" content="Throwable通常会在每个项目中建立属于每个服务的自定义服务异常，或者整个项目的自定义异常，在出现问题时能够更加快速准确的确定错误位置。  Throwable常用的方法： toString() 返回的是用于描述该异常情况的类的完整类名。 getMessage() 返回创建Throwable对象的时候传入的消息字符串的,  printStackTrace() 打印异常的栈信息。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2019/03/19/5c9100a05ab07.jpg">
+<meta property="og:updated_time" content="2019-03-20T06:57:17.689Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java异常">
+<meta name="twitter:description" content="Throwable通常会在每个项目中建立属于每个服务的自定义服务异常，或者整个项目的自定义异常，在出现问题时能够更加快速准确的确定错误位置。  Throwable常用的方法： toString() 返回的是用于描述该异常情况的类的完整类名。 getMessage() 返回创建Throwable对象的时候传入的消息字符串的,  printStackTrace() 打印异常的栈信息。">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/19/5c9100a05ab07.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://kokioyao.github.io/Java/Throwable/JavaThrowable/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Java异常 | 面壁墙</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">面壁墙</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">意志のあるところに道は開ける</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-book">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/book/" rel="section"><i class="menu-item-icon fa fa-fw fa-book"></i> <br>资料</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-plus">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/plus/" rel="section"><i class="menu-item-icon fa fa-fw fa-plus"></i> <br>自省</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kokioyao.github.io/Java/Throwable/JavaThrowable/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kokio Yao">
+      <meta itemprop="description" content="一个所谓的乖小孩，突然想有自己的喜好">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面壁墙">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java异常
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-08 22:30:42" itemprop="dateCreated datePublished" datetime="2018-08-08T22:30:42+08:00">2018-08-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新</span>
+                
+                <time title="修改时间：2019-03-20 14:57:17" itemprop="dateModified" datetime="2019-03-20T14:57:17+08:00">2019-03-20</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/Throwable/" itemprop="url" rel="index"><span itemprop="name">Throwable</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论：</span>
+                <a href="/Java/Throwable/JavaThrowable/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/Java/Throwable/JavaThrowable/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-fire"></i>
+             热度： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">2.1k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">2 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Throwable</strong><br>通常会在每个项目中建立属于每个服务的自定义服务异常，或者整个项目的自定义异常，在出现问题时能够更加快速准确的确定错误位置。</p>
+<hr>
+<h3 id="Throwable常用的方法："><a href="#Throwable常用的方法：" class="headerlink" title="Throwable常用的方法："></a>Throwable常用的方法：</h3><ol>
+<li>toString() 返回的是用于描述该异常情况的类的完整类名。</li>
+<li>getMessage() 返回创建Throwable对象的时候传入的消息字符串的, </li>
+<li>printStackTrace() 打印异常的栈信息。</li>
+</ol>
+<a id="more"></a>
+<h3 id="Java异常层次结构图"><a href="#Java异常层次结构图" class="headerlink" title="Java异常层次结构图"></a>Java异常层次结构图</h3><p><img src="https://i.loli.net/2019/03/19/5c9100a05ab07.jpg" alt="throwable.jpg"></p>
+<p>Error：错误一般都是由于jvm或者是硬件引发的问题，所有一般都不会通过代码去处理。</p>
+<p>Exception： 异常  如果程序出现了异常，那么一般就需要通过代码去处理了。</p>
+<ul>
+<li><p>运行时异常 （RunTimeException以及RuntimeException子类 ）如果一个方法内部抛出了一个运行时异常对象，那么方法声明可以声明抛出也可以不声明抛出，如果调用了一个声明抛出运行时异常类型的方法，那么调用者可以处理也可以不处理。</p>
+</li>
+<li><p>编译时异常(非运行时异常，受检异常)如果一个方法内部抛出了一个编异常译时异常对象，那么该方法则必须要声明抛出，如果调用了一个声明抛出编译时异常类型的方法，那么调用者必须要处理.</p>
+</li>
+</ul>
+<h3 id="异常的栈信息如何出现"><a href="#异常的栈信息如何出现" class="headerlink" title="异常的栈信息如何出现"></a>异常的栈信息如何出现</h3><p>异常的栈信息是通过printStackTrace的方法打印的，java虚拟机在执行a/b代码的时候，发现b（除数）等于0在现实生活中是属于一种不正常的情况，jvm一旦发现了不正常的情况，那么就会马上创建一个相应的异常对象，并且调用该异常对象的printStackTrace方法把异常的信息打印处理。</p>
+<h3 id="异常的方式处理："><a href="#异常的方式处理：" class="headerlink" title="异常的方式处理："></a>异常的方式处理：</h3><h4 id="1-try-catch块捕获"><a href="#1-try-catch块捕获" class="headerlink" title="1. try-catch块捕获"></a>1. try-catch块捕获</h4><pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">	可能会发生异常的代码</span><br><span class="line">&#125;<span class="keyword">catch</span>(异常类型 变量名)&#123;</span><br><span class="line">	处理异常的代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><p>捕获处理要注意的细节：</p>
+<ol>
+<li>如果一个try块中出现了异常代码经过处理之后，那么try-catch块外面的代码可以正常的执行。</li>
+<li>如果一个try块中出现了异常的代码，那么在一个try块中出现异常代码后面的代码无法正常执行。</li>
+<li>一个try块后面可以跟有多个catch块，也就是说一个块可以捕获多种异常的类型。</li>
+<li>一个try块后面可以跟有多个catch块，但是捕获的异常类型必须按照从小到大进行捕获。</li>
+</ol>
+<h4 id="2-抛出："><a href="#2-抛出：" class="headerlink" title="2.抛出："></a>2.抛出：</h4><p>抛出处理. （throw 、 throws）<br>抛出处理要注意的细节：</p>
+<ol>
+<li>如果一个方法的内部抛出了一个编译时异常对象，那么必须 要在方法声明抛出。</li>
+<li>如果调用了一个声明抛出编译时异常类型的方法，那么调用者必须要进行处理，否则编译报错。</li>
+<li>一个方法如果遇到了throw关键字，那么该方法会马上停止执行。</li>
+<li>在一个种情况下只能抛出一种异常对象。</li>
+</ol>
+<p>throw 与 throws的区别：</p>
+<ol>
+<li>throw关键字是用于在一个方法的内部抛出异常对象的，throws是用于在方法上声明抛出异常类型的。 </li>
+<li>throw关键字后面跟的是一个异常的对象，throws后面跟的是异常的类型。</li>
+<li>throw关键字一次只能抛出一个异常对象，throws一次可以声明抛出多种异常类型。</li>
+</ol>
+<h3 id="finally块"><a href="#finally块" class="headerlink" title="finally块"></a>finally块</h3><p>finally块的使用前提： 必须要配合try块使用,不能单独使用。<br>finally块的代码在任何情况下都可以执行，只有在jvm退出的情况才不会执行。</p>
+<p>try块的表现形式就有三种： </p>
+<ol>
+<li><p>适用于没有资源文件释放，只需要处理异常的代码使用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123; </span><br><span class="line">    可能发生异常的代码 </span><br><span class="line">&#125; <span class="keyword">catch</span>( 异常类的类型 e)&#123;</span><br><span class="line">    异常的处理代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>适用于既有资源释放也需要处理异常的代码去使用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123; </span><br><span class="line">    可能发生异常的代码 </span><br><span class="line">&#125; <span class="keyword">catch</span>( 异常类的类型 e)&#123;</span><br><span class="line">    异常的处理代码</span><br><span class="line">&#125;	<span class="keyword">finally</span>&#123;</span><br><span class="line">    释放资源的代码；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>只需要 释放资源文件，不需要处理异常的代码去使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123; </span><br><span class="line">        可能发生异常的代码 </span><br><span class="line">    &#125; <span class="keyword">finally</span>&#123;</span><br><span class="line">        释放资源的代码；</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="finally块不被执行情况"><a href="#finally块不被执行情况" class="headerlink" title="finally块不被执行情况"></a>finally块不被执行情况</h4><ol>
+<li>在finally语句块第一行发生了异常。 因为在其他行，finally块还是会得到执行</li>
+<li>在前面的代码中用了System.exit(int)已退出程序。 exit是带参函数 ；若该语句在异常语句之后，finally会执行</li>
+<li>程序所在的线程死亡。</li>
+<li>关闭CPU。</li>
+</ol>
+<h4 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h4><p>如果try语句里有return，返回的是try语句块中变量值。<br>详细执行过程如下：</p>
+<ol>
+<li>如果有返回值，就把返回值保存到局部变量中；</li>
+<li>执行jsr指令跳到finally语句里执行；</li>
+<li>执行完finally语句后，返回之前保存在局部变量表里的值。</li>
+<li>如果try，finally语句里均有return，忽略try的return，而使用finally的return.</li>
+</ol>
+<hr>
+<p><a href="https://github.com/Snailclimb/JavaGuide/blob/master/Java/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md#32-java-%E4%B8%AD%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86" target="_blank" rel="noopener">finally不执行情况 和 try/catch返回值 引用</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------<i class="fa fa-hand-o-right"></i> 感谢阅读-------------</div>
+    
+</div>
+
+      
+    </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/自学笔记/" rel="tag"># 自学笔记</a>
+          
+            <a href="/tags/异常/" rel="tag"># 异常</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Java/基本程序设计结构/Java基本程序设计结构/" rel="next" title="Java基础内容">
+                <i class="fa fa-chevron-left"></i> Java基础内容
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Java/面向对象/Java面向对象/" rel="prev" title="Java面向对象">
+                Java面向对象 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Kokio Yao">
+            
+              <p class="site-author-name" itemprop="name">Kokio Yao</p>
+              <div class="site-description motion-element" itemprop="description">一个所谓的乖小孩，突然想有自己的喜好</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/kokioyao" title="GitHub &rarr; https://github.com/kokioyao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:ykkwpp@gmail.com" title="E-Mail &rarr; mailto:ykkwpp@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://twitter.com/kokioyao" title="Twitter &rarr; https://twitter.com/kokioyao" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://leetcode-cn.com/kokio/" title="Leetcode &rarr; https://leetcode-cn.com/kokio/" rel="noopener" target="_blank"><i class="fa fa-fw fa-pencil-square-o"></i>Leetcode</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-paper-plane"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/EbookFoundation/free-programming-books" title="https://github.com/EbookFoundation/free-programming-books" rel="noopener" target="_blank">EBook</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://example.com" title="http://example.com" rel="noopener" target="_blank">title</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+<div id="music163player" class="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=550661&auto=1&height=66">
+    </iframe>
+</div>
+
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Throwable常用的方法："><span class="nav-number">1.</span> <span class="nav-text">Throwable常用的方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java异常层次结构图"><span class="nav-number">2.</span> <span class="nav-text">Java异常层次结构图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常的栈信息如何出现"><span class="nav-number">3.</span> <span class="nav-text">异常的栈信息如何出现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常的方式处理："><span class="nav-number">4.</span> <span class="nav-text">异常的方式处理：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-try-catch块捕获"><span class="nav-number">4.1.</span> <span class="nav-text">1. try-catch块捕获</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-抛出："><span class="nav-number">4.2.</span> <span class="nav-text">2.抛出：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#finally块"><span class="nav-number">5.</span> <span class="nav-text">finally块</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#finally块不被执行情况"><span class="nav-number">5.1.</span> <span class="nav-text">finally块不被执行情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#返回值"><span class="nav-number">5.2.</span> <span class="nav-text">返回值</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kokio Yao</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">161k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">2:27</span>
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a></div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-bolt"></i>
+    </span>
+    <span class="site-uv" title="总到访">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-fire"></i>
+    </span>
+    <span class="site-pv" title="总热量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'FO5i6MLQkkz4gFGzkfqs9REQ-gzGzoHsz',
+    appKey: '866LBR1GPYXr5AqhxvtYrfYN',
+    placeholder: '大哥，您说',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
