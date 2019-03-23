@@ -1862,7 +1862,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffff8e;
+  background: #cf8b16;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2509,7 +2509,4 @@ embed {
 }
 .header-inner {
   padding-bottom: 10px;
-}
-.music163player {
-  margin-top: 50%;
 }

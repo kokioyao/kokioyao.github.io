@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="没有写全，省略了些我熟的一些东西，主要用来自我复习。 项目简介项目可复制点原本是一个基于Spring Boot1.5.19的商家后台小项目，不过其中也有几点以后复制的东西。  在登陆这一功能上使用了redis来做分布式Session进行集中管理。 由于商品数量少，缓存也是使用的redis，没有使用像Elasticsearch这样的全文检索库，如果量大可以使用。 对于分布式秒杀，也是通过redis来">
+<meta name="keywords" content="Spring Boot,Spring Cloud,微服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot项目改造成Spring cloud微服务化">
+<meta property="og:url" content="http://kokioyao.github.io/微服务/Spring Boot项目改造成Spring cloud微服务化/index.html">
+<meta property="og:site_name" content="面壁墙">
+<meta property="og:description" content="没有写全，省略了些我熟的一些东西，主要用来自我复习。 项目简介项目可复制点原本是一个基于Spring Boot1.5.19的商家后台小项目，不过其中也有几点以后复制的东西。  在登陆这一功能上使用了redis来做分布式Session进行集中管理。 由于商品数量少，缓存也是使用的redis，没有使用像Elasticsearch这样的全文检索库，如果量大可以使用。 对于分布式秒杀，也是通过redis来">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2019/03/22/5c94ac29222b5.jpg">
+<meta property="og:updated_time" content="2019-03-23T14:42:36.978Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring Boot项目改造成Spring cloud微服务化">
+<meta name="twitter:description" content="没有写全，省略了些我熟的一些东西，主要用来自我复习。 项目简介项目可复制点原本是一个基于Spring Boot1.5.19的商家后台小项目，不过其中也有几点以后复制的东西。  在登陆这一功能上使用了redis来做分布式Session进行集中管理。 由于商品数量少，缓存也是使用的redis，没有使用像Elasticsearch这样的全文检索库，如果量大可以使用。 对于分布式秒杀，也是通过redis来">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/22/5c94ac29222b5.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://kokioyao.github.io/微服务/Spring Boot项目改造成Spring cloud微服务化/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Spring Boot项目改造成Spring cloud微服务化 | 面壁墙</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">面壁墙</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">意志のあるところに道は開ける</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-book">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/book/" rel="section"><i class="menu-item-icon fa fa-fw fa-book"></i> <br>资料</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-plus">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/plus/" rel="section"><i class="menu-item-icon fa fa-fw fa-plus"></i> <br>自省</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kokioyao.github.io/微服务/Spring Boot项目改造成Spring cloud微服务化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kokio Yao">
+      <meta itemprop="description" content="一个所谓的乖小孩，突然想有自己的喜好">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="面壁墙">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring Boot项目改造成Spring cloud微服务化
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-22 14:06:30" itemprop="dateCreated datePublished" datetime="2019-03-22T14:06:30+08:00">2019-03-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新</span>
+                
+                <time title="修改时间：2019-03-23 22:42:36" itemprop="dateModified" datetime="2019-03-23T22:42:36+08:00">2019-03-23</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/微服务/" itemprop="url" rel="index"><span itemprop="name">微服务</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论：</span>
+                <a href="/微服务/Spring Boot项目改造成Spring cloud微服务化/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/微服务/Spring Boot项目改造成Spring cloud微服务化/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-fire"></i>
+             热度： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">15k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">13 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>没有写全，省略了些我熟的一些东西，主要用来自我复习。</p>
+<h2 id="项目简介"><a href="#项目简介" class="headerlink" title="项目简介"></a>项目简介</h2><h3 id="项目可复制点"><a href="#项目可复制点" class="headerlink" title="项目可复制点"></a>项目可复制点</h3><p>原本是一个基于Spring Boot1.5.19的商家后台小项目，不过其中也有几点以后复制的东西。</p>
+<ol>
+<li>在登陆这一功能上使用了redis来做分布式Session进行集中管理。</li>
+<li>由于商品数量少，缓存也是使用的redis，没有使用像Elasticsearch这样的全文检索库，如果量大可以使用。</li>
+<li>对于分布式秒杀，也是通过redis来完成的，通过redis的setnx()和getset()这两个方法确保了数据的一致性，在性能上比synchronized关键字要高。</li>
+</ol>
+<p>下面是redis分布式锁的具体代码<br><a id="more"></a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 加锁</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value 当前时间+超时时间</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">lock</span><span class="params">(String key,String value)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(redisTemplate.opsForValue().setIfAbsent(key,value))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        String currentValue = redisTemplate.opsForValue().get(key);</span><br><span class="line">        <span class="comment">//如果锁过期</span></span><br><span class="line">        <span class="keyword">if</span>(!StringUtils.isEmpty(currentValue) &amp;&amp; Long.parseLong(currentValue) &lt; System.currentTimeMillis())&#123;</span><br><span class="line">            <span class="comment">//获取上一个锁的时间</span></span><br><span class="line">            String oldValue = redisTemplate.opsForValue().getAndSet(key, value);</span><br><span class="line">            <span class="keyword">if</span>(!StringUtils.isEmpty(oldValue) &amp;&amp; oldValue.equals(currentValue))&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 解锁</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlock</span><span class="params">(String key,String value)</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            String currentValue = redisTemplate.opsForValue().get(key);</span><br><span class="line">            <span class="keyword">if</span>(!StringUtils.isEmpty(currentValue) &amp;&amp; currentValue.equals(value))&#123;</span><br><span class="line">                redisTemplate.opsForValue().getOperations().delete(key);<span class="comment">//删除key</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>加锁</strong><br>主逻辑有那么点CAS算法的意思，可以把currentValue想象成一开始的值A，oldValue是需要我们读取去比较的值V，当且仅当V==A时，才返回true，否则就表明V的值已经被修改过了，这次过来的线程不能执行下面的操作，锁住了。这是我自己歪想的，不保证对。<br><strong>解锁</strong><br>只要判断值相等之后，删除redis中的key就好。</p>
+<h3 id="整体概述"><a href="#整体概述" class="headerlink" title="整体概述"></a>整体概述</h3><p>项目可以分为商品、订单、买家、卖家这样四部分，买家可以登陆、下单、取消订单、查看订单详情等功能，卖家在后台在登陆之后可以，对商品进行上架、下架、添加、删除等一系列操作，对商品分类进行操作，也可以对订单进行完结、取消、详情等功能；整体用切面对用户登陆做了确认，也用原生websocket在创建订单时，能够在后台自动推送消息给卖家端等小功能。</p>
+<p>目录结构如下<br><img src="https://i.loli.net/2019/03/22/5c94ac29222b5.jpg" alt="目录结构.jpg"></p>
+<p>由于前期把项目都写在一起，过于冗余，尝试使用Spring Cloud将它拆成3个服务：订单、商品、用户。</p>
+<h2 id="Spring-Cloud微服务化"><a href="#Spring-Cloud微服务化" class="headerlink" title="Spring Cloud微服务化"></a>Spring Cloud微服务化</h2><p>首先确定版本，我使用的Spring Cloud是Greenwich.RELASE版，Spring Boot是2.1.3。</p>
+<h3 id="Eureka服务端"><a href="#Eureka服务端" class="headerlink" title="Eureka服务端"></a>Eureka服务端</h3><h4 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="yml文件配置"><a href="#yml文件配置" class="headerlink" title="yml文件配置"></a>yml文件配置</h4><p>Eureka Server相对比较简单，只需要在yaml文件中进行简单的配置就可以完成。Eureka Server作为服务注册功能的服务器，之后创建的服务都会注册到这个模块，客户端（Client）和服务端（Server）之间将会通过有周期的心跳确保连接。<br>服务端配置：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http:<span class="comment">//localhost:8761/eureka/   #开发阶段就使用一个,http://localhost:8762/eureka/    #互相注册，就可以实现高可用</span></span><br><span class="line">    register-with-eureka: <span class="keyword">false</span></span><br><span class="line">    fetch-registry: <span class="keyword">false</span></span><br><span class="line">  server:</span><br><span class="line">    enable-self-preservation: false #自我保护模式，如果在短时间内丢失过多的客户端，那么这节点就会进入自我保护模式，不再删除</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: eureka</span><br><span class="line">#server:</span><br><span class="line">#  port: 8761 端口默认</span><br></pre></td></tr></table></figure></p>
+<p>在主类上添加EnableEurekaServer注解，即可启动。<br>服务端可以配置多个，通过互相注册就可以实现高可用。</p>
+<h3 id="Spring-Cloud-Config配置中心"><a href="#Spring-Cloud-Config配置中心" class="headerlink" title="Spring Cloud Config配置中心"></a>Spring Cloud Config配置中心</h3><h4 id="添加依赖-1"><a href="#添加依赖-1" class="headerlink" title="添加依赖"></a>添加依赖</h4><p>在pom文件中需要添加config的依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-config-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在主类上添加@EnableConfigServer就可以启动，确保已经配置Eureka的Client，在控制中心就可看到注册的CONFIG。</p>
+<h4 id="yml文件"><a href="#yml文件" class="headerlink" title="yml文件"></a>yml文件</h4><p>配置中心的功能是可以把一些公共的配置，比如连接数据库的一些配置都放到这一部分，这样就可以为各个服务统一管理配置。<br>这次是把配置放到了gitlab上，当然也可以放到其他的地方，本地文件之类的。下面是具体配置文件<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">config</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      server:</span></span><br><span class="line"><span class="attr">        git:</span></span><br><span class="line"><span class="attr">          uri:</span> <span class="attr">https://gitlab.com/kokioyao/config-repo.git</span></span><br><span class="line"><span class="attr">          username:</span> <span class="string">填写gitlab账号</span></span><br><span class="line"><span class="attr">          password:</span> <span class="string">密码</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    service-url:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:8761/eureka/</span></span><br><span class="line"><span class="attr">management:</span></span><br><span class="line"><span class="attr">  endpoints:</span></span><br><span class="line"><span class="attr">    web:</span></span><br><span class="line"><span class="attr">      exposure:</span></span><br><span class="line"><span class="attr">        include:</span> <span class="string">"*"</span><span class="comment">#暴露所有接口，为了自动更新，暴露bus-refresh</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="访问路径"><a href="#访问路径" class="headerlink" title="访问路径"></a>访问路径</h4><p>在启动CONFIG服务后，可以通过访问配置信息的URL来访问配置文件，下面是具体的访问路径。<br>/{application}/{profile}[/{label}]<br>/{application}-{profile}.yml<br>/{label}/{application}-{profile}.yml<br>/{application}-{profile}.properties<br>/{label}/{application}-{profile}.properties</p>
+<h4 id="Spring-Cloud-Bus自动刷新"><a href="#Spring-Cloud-Bus自动刷新" class="headerlink" title="Spring Cloud Bus自动刷新"></a>Spring Cloud Bus自动刷新</h4><p>在pom文件中加入bus组件<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-bus-amqp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在这个依赖中，包含了rabbitmq的依赖，所以还需要启动rabbitmq，在配置中暴露端口。<br>之后在git上的yml文件修改内容，可以不需要重启config，就可以直接看到修改后的内容。</p>
+<h4 id="自动刷新，并让其他服务接收到之后自动配置"><a href="#自动刷新，并让其他服务接收到之后自动配置" class="headerlink" title="自动刷新，并让其他服务接收到之后自动配置"></a>自动刷新，并让其他服务接收到之后自动配置</h4><ol>
+<li><p>在pom文件中也加入Spring Cloud Bus的依赖,并且加入config client的依赖。</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-bus-amqp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-config-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在服务的yml文件中进行修改</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">order</span></span><br><span class="line"><span class="attr">  cloud:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      discovery:</span></span><br><span class="line"><span class="attr">        enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">        service-id:</span> <span class="string">CONFIG</span></span><br><span class="line"><span class="attr">      profile:</span> <span class="string">dev</span></span><br><span class="line"><span class="attr">    bus:</span></span><br><span class="line"><span class="attr">      id:</span> <span class="string">$&#123;vcap.application.name:$&#123;spring.application.name:application&#125;&#125;:$&#123;vcap.application.instance_index:$&#123;spring.cloud.config.profile:$&#123;local.server.port:$&#123;server.port:0&#125;&#125;&#125;&#125;:$&#123;vcap.application.instance_id:$&#123;random.value&#125;&#125;</span></span><br><span class="line"><span class="comment">#上面的id是由于springcloud bus无法正确找到端口，所进行的修改</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    service-url:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:8761/eureka/</span></span><br><span class="line"><span class="attr">management:</span></span><br><span class="line"><span class="attr">  endpoints:</span></span><br><span class="line"><span class="attr">    web:</span></span><br><span class="line"><span class="attr">      exposure:</span></span><br><span class="line"><span class="attr">        include:</span> <span class="string">"*"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在需要刷新的方法或者类上添加RefreshScope注解。类似如下，就可以拿到配置文件中book的name和page</p>
+</li>
+</ol>
+<p>gitlab上的yml文件（注意访问路径）；比如写在order-dev的配置文件中，那么可以访问order服务来看变化。<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">book:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">Harry</span> <span class="string">Potter</span></span><br><span class="line"><span class="attr">    page:</span> <span class="number">909</span></span><br></pre></td></tr></table></figure></p>
+<p>客户端order服务中的类<br>    <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"book"</span>)</span><br><span class="line"><span class="meta">@RefreshScope</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookConfig</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> Integer page;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ol start="4">
+<li>最后之后我们需要借助gitlab的Webhooks功能，来将配置重新刷入。注意：在gitlab上填写必须是外网的地址不可以写localhost（由外网指向本地）。<br>完成之后，在gitlab上修改内容，就可以直接在服务上看到所修改的内容。</li>
+</ol>
+<h2 id="Order、Product服务"><a href="#Order、Product服务" class="headerlink" title="Order、Product服务"></a>Order、Product服务</h2><h3 id="feign服务调用"><a href="#feign服务调用" class="headerlink" title="feign服务调用"></a>feign服务调用</h3><p>在两个服务都注册到eureka server中，并且由config server统一管理配置之后，开始服务之间的调用（订单调用商品服务）。<br>这里使用feign，来进行调用，feign是声明式REST客户端（伪RPC），采用了基于接口的注解，由于feign内部也是用ribbon，所以也支持负载均衡。</p>
+<h4 id="添加依赖-2"><a href="#添加依赖-2" class="headerlink" title="添加依赖"></a>添加依赖</h4><p>在pom文件中添加依赖（product的client模块和order的主服务模块）<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>由于服务是分开开发的，所以在order所需要的接口也应该由product服务提供，所以在商品服务写一个client模块供order调用，将order所需要的接口写在这边。到时候打包到仓库，在order中导入依赖即可。</p>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>在提供服务端 即product client端代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> kokio</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span> 2019-03-07 16:45</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@FeignClient</span>(<span class="string">"product"</span>)<span class="comment">//这里是声明调用哪个服务</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ProductClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span>(<span class="string">"/product/listProducts"</span>)<span class="comment">//调用的具体方法</span></span><br><span class="line">    <span class="function">List&lt;ProductInfoOutput&gt; <span class="title">listProducts</span><span class="params">(@RequestBody List&lt;String&gt; productIdList)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span>(<span class="string">"/product/decreaseStock"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">descreaseStock</span><span class="params">(@RequestBody List&lt;DecreaseStockInput&gt; decreaseStockInputList)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在消费端 即order server端，需要在主类上添加<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableFeignClients</span>(basePackages=<span class="string">"cn.footman.product.client"</span>)<span class="comment">//表示调用的接口的位置</span></span><br></pre></td></tr></table></figure></p>
+<p>注意，需要将product client打成包放到本地仓库，再在order server中导入依赖。<br>完成之后就可以直接@Autowired进来使用。</p>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p>如果order端无法拿到数据，而product端确实进行了对数据的select，那么应该在order端设置超时时间<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">feign:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    config:</span></span><br><span class="line"><span class="attr">      default:</span></span><br><span class="line"><span class="attr">        connectTimeout:</span> <span class="number">5000</span></span><br><span class="line"><span class="attr">        ReadTimeout:</span> <span class="number">5000</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Rabbitmq消息传输"><a href="#Rabbitmq消息传输" class="headerlink" title="Rabbitmq消息传输"></a>Rabbitmq消息传输</h3><p>在order端订阅product消息。当product有减库存等动作时，发送消息给order端，做相应的处理。</p>
+<h4 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h4><p>在product服务添加依赖，就可以直接在类中引入AmqpTemplate进行发送消息<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-amqp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在order中也加入相应的依赖，这里使用的是Spring Cloud Stream——为微服务应用构建消息驱动的框架，支持rabbitmq和kafka，可以简化对消息中间件的使用。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-stream-rabbit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-stream<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>直接在订阅端 添加一个RabbitListener注解就可以使用了。类似如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1. @RabbitListener(queues = "myQueue")</span></span><br><span class="line"><span class="comment">//2.自动创建队列</span></span><br><span class="line"><span class="comment">//@RabbitListener(queuesToDeclare = @Queue("myQueue"))</span></span><br><span class="line"><span class="comment">//3.自动创建exchange和队列绑定</span></span><br><span class="line"><span class="meta">@RabbitListener</span>(bindings = <span class="meta">@QueueBinding</span>(</span><br><span class="line">        value = <span class="meta">@Queue</span>(<span class="string">"myQueue"</span>),</span><br><span class="line">        exchange = <span class="meta">@Exchange</span>(<span class="string">"myExchange"</span>)</span><br><span class="line">))</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(String message)</span></span>&#123;</span><br><span class="line">    System.out.println(message);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Zuul服务网关"><a href="#Zuul服务网关" class="headerlink" title="Zuul服务网关"></a>Zuul服务网关</h2><p>在微服务架构中，后端服务往往不直接开放给调用端，二十通过网管根据请求的url，路由到相应的服务。这样网关就可以在第三方调用端和服务提供方之间进行一些需要的过滤操作。因此可以这样认为：路由+过滤器=zuul。</p>
+<h3 id="依赖-1"><a href="#依赖-1" class="headerlink" title="依赖"></a>依赖</h3><p>在pom文件中添加依赖,网关服务需要注册到eureka server中，而且需要将配置放到config中，需要配置能够自动跟新。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-config<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-zuul<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-bus-amqp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h3><p>yml文件中需要添加下面关于zuul的内容，由于使用config统一管理，这些内容应该被配置到gitlab上去。<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">zuul:</span></span><br><span class="line"><span class="attr">  host:</span></span><br><span class="line"><span class="attr">    connect-timeout-millis:</span> <span class="number">10000</span></span><br><span class="line"><span class="attr">    socket-timeout-millis:</span> <span class="number">60000</span></span><br><span class="line"><span class="attr">  routes:</span>    <span class="comment">#实现路由功能 /服务名/访问路径</span></span><br><span class="line"><span class="attr">    pro:</span></span><br><span class="line"><span class="attr">      path:</span> <span class="string">/prod/**</span></span><br><span class="line"><span class="attr">      serviceId:</span> <span class="string">product</span></span><br><span class="line">      <span class="comment">#过滤敏感头部，下面设置就可以获取cookie</span></span><br><span class="line"><span class="attr">  sensitive-headers:</span></span><br><span class="line"><span class="comment">#     可以写成下面这样(服务名，加路径）</span></span><br><span class="line"><span class="comment">#    product: /prod/**</span></span><br><span class="line">    <span class="comment">#使用正则排除访问路由，也可以排除服务ignored-service</span></span><br><span class="line"><span class="comment">#  ignored-patterns:</span></span><br><span class="line"><span class="comment">#    - /**/product/listProducts</span></span><br></pre></td></tr></table></figure></p>
+<p>要实现配置的自动刷新还需要新建一个下面的类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> kokio</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span> 2019-03-10 17:07</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ZuulConfig</span> </span>&#123;</span><br><span class="line">    <span class="comment">//动态配置</span></span><br><span class="line">    <span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"zuul"</span>)</span><br><span class="line">    <span class="meta">@RefreshScope</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ZuulProperties <span class="title">zuulProperties</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ZuulProperties();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="实现过滤"><a href="#实现过滤" class="headerlink" title="实现过滤"></a>实现过滤</h3><p>可以通过前置过滤器来进行对访问用户的权限控制，或者限流等等，举例文件如下，需要继承ZuulFilter。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> kokio</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span> 2019-03-11 13:56</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthBuyerFilter</span> <span class="keyword">extends</span> <span class="title">ZuulFilter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">filterType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> FilterConstants.PRE_TYPE;</span><br><span class="line"><span class="comment">//前置，具体可以到类中进行选择</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">filterOrder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> FilterConstants.PRE_DECORATION_FILTER_ORDER - <span class="number">1</span>;</span><br><span class="line"><span class="comment">//值越小执行顺序越靠前</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldFilter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        RequestContext requestContext = RequestContext.getCurrentContext();</span><br><span class="line">        HttpServletRequest request = requestContext.getRequest();</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"/order/order/create"</span>.equals(request.getRequestURI())) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">run</span><span class="params">()</span> <span class="keyword">throws</span> ZuulException </span>&#123;</span><br><span class="line">        RequestContext requestContext = RequestContext.getCurrentContext();</span><br><span class="line">        HttpServletRequest request = requestContext.getRequest();</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * /order/creaete只能买家创建（cookie有openid）</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        Cookie cookie = CookieUtil.getCookie(request, <span class="string">"openid"</span>);</span><br><span class="line">        <span class="keyword">if</span> (cookie == <span class="keyword">null</span> || cookie.getValue() == <span class="keyword">null</span>) &#123;</span><br><span class="line">            requestContext.setSendZuulResponse(<span class="keyword">false</span>);<span class="comment">//没有权限</span></span><br><span class="line">            requestContext.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="跨域"><a href="#跨域" class="headerlink" title="跨域"></a>跨域</h3><p>实现跨域，可以通过在方法上添加@CrossOrigin()来对单个接口进行跨域</p>
+<p>统一配置跨域接口，可以在Zuul中建一个CorsConfig类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 跨域配置 处理跨域</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> kokio</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span> 2019-03-11 14:20</span></span><br><span class="line"><span class="comment"> * C-Cross O-Orign R-Resource S-Sharing</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CorsConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> CorsFilter <span class="title">corsFilter</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">final</span> UrlBasedCorsConfigurationSource source = <span class="keyword">new</span> UrlBasedCorsConfigurationSource();</span><br><span class="line">        <span class="keyword">final</span> CorsConfiguration config = <span class="keyword">new</span> CorsConfiguration();</span><br><span class="line">        config.setAllowCredentials(<span class="keyword">true</span>);<span class="comment">//cookie</span></span><br><span class="line">        config.setAllowedOrigins(Arrays.asList(<span class="string">"*"</span>));<span class="comment">//域名</span></span><br><span class="line">        config.setAllowedHeaders(Arrays.asList(<span class="string">"*"</span>));</span><br><span class="line">        config.setAllowedMethods(Arrays.asList(<span class="string">"*"</span>));<span class="comment">//POST GET....</span></span><br><span class="line">        config.setMaxAge(<span class="number">9090l</span>);</span><br><span class="line"></span><br><span class="line">        source.registerCorsConfiguration(<span class="string">"/**"</span>,config);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> CorsFilter(source);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Hystrix断路器"><a href="#Hystrix断路器" class="headerlink" title="Hystrix断路器"></a>Hystrix断路器</h2><p>服务降级、服务熔断、服务限流、实时监控等等，防止出现服务雪崩效应。不能因为单个服务的出错，从而引起整个系统的崩溃。</p>
+<h3 id="依赖-2"><a href="#依赖-2" class="headerlink" title="依赖"></a>依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-hystrix<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-hystrix-dashboard<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>第二个依赖是hystrix的监控面板</p>
+<p>在主类上添加@EnableCircuitBreaker。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>简单实现代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> kokio</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span> 2019-03-11 15:13</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@DefaultProperties</span>(defaultFallback = <span class="string">"defaultFallback"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HystrixController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">//  超时配置</span></span><br><span class="line"><span class="comment">//    @HystrixCommand(commandProperties = &#123;</span></span><br><span class="line"><span class="comment">//            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000")</span></span><br><span class="line"><span class="comment">//    &#125;)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//服务熔断</span></span><br><span class="line"><span class="comment">//    @HystrixCommand(commandProperties = &#123;</span></span><br><span class="line"><span class="comment">//            @HystrixProperty(name="circuitBreaker.enabled",value = "true"),</span></span><br><span class="line"><span class="comment">//            @HystrixProperty(name="circuitBreaker.requestVolumeThreshold",value = "10"),</span></span><br><span class="line"><span class="comment">//            @HystrixProperty(name="circuitBreaker.sleepWindowInMilliseconds",value = "10000"),</span></span><br><span class="line"><span class="comment">//            @HystrixProperty(name="circuitBreaker.errorThresholdPercentage",value = "50"),</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//    &#125;)</span></span><br><span class="line">    <span class="meta">@HystrixCommand</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/getProductInfoList"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getProductInfo</span><span class="params">(@RequestParam(<span class="string">"num"</span>)</span> Integer num) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(num % <span class="number">2</span> == <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"good"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        RestTemplate restTemplate = <span class="keyword">new</span> RestTemplate();</span><br><span class="line">        <span class="keyword">return</span> restTemplate.postForObject(<span class="string">"http://localhost:8090/product/listProducts"</span>, Arrays.asList(<span class="string">"999999"</span>), String.class);</span><br><span class="line">        <span class="comment">//服务降级不单单是可以用到目标服务发生错误，不能提供降级，也可以在自身的服务中使用</span></span><br><span class="line"><span class="comment">//        throw new RuntimeException("发生异常");</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">fallback</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"错误页面"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">defaultFallback</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"默认错误页面"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="sluth链路监控"><a href="#sluth链路监控" class="headerlink" title="sluth链路监控"></a>sluth链路监控</h2><p>此项目中服务较少，逻辑简单，但是真正系统项目在按业务功能划分之后，可能会产生很多服务，而当出现异常时，就比较难去判断哪个服务出现了问题，因此就需要Spring Cloud Sleuth，<br>它是Spring Cloud的组成部分之一，主要为SpringCloud应用实现了一种分布式追踪解决方案，其兼容了Zipkin, HTrace和log-based追踪，这里使用Zipkin进行简单演示。</p>
+<h3 id="依赖-3"><a href="#依赖-3" class="headerlink" title="依赖"></a>依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-zipkin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="配置-2"><a href="#配置-2" class="headerlink" title="配置"></a>配置</h3><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  zipkin:</span></span><br><span class="line"><span class="attr">    locator:</span></span><br><span class="line"><span class="attr">      discovery:</span></span><br><span class="line"><span class="attr">        enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    base-url:</span> <span class="attr">http://127.0.0.1:9411/</span></span><br><span class="line"><span class="attr">    sender:</span></span><br><span class="line"><span class="attr">      type:</span> <span class="string">web</span> <span class="comment">#当在classpath下有web，rabbit，kafka时需要指明，才可以在zipkin中显示</span></span><br><span class="line"><span class="attr">  sleuth:</span></span><br><span class="line"><span class="attr">    sampler:</span></span><br><span class="line"><span class="attr">      probability:</span> <span class="number">1.0</span>  <span class="comment">#100的概率，只在开发阶段测试使用，具体看文档</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    http:</span></span><br><span class="line"><span class="attr">      legacy:</span></span><br><span class="line"><span class="attr">        enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    web:</span></span><br><span class="line"><span class="attr">      skip-pattern:</span> <span class="string">(^cleanup.*)</span></span><br></pre></td></tr></table></figure>
+<p>配置完成之后就可以登陆本地localhost:9411进行查看。</p>
+<h3 id="ZipKin的几个关键概念"><a href="#ZipKin的几个关键概念" class="headerlink" title="ZipKin的几个关键概念"></a>ZipKin的几个关键概念</h3><p>traceId：跟踪的全局id<br>spanId：下一层的请求跟踪id<br>parentId：上一次请求跟踪id</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一个较为简单的小项目，使用了Spring Cloud的各个组件，能够较为快速的了解各自的应用方式及场景。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------<i class="fa fa-hand-o-right"></i> 感谢阅读-------------</div>
+    
+</div>
+
+      
+    </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring-Boot/" rel="tag"># Spring Boot</a>
+          
+            <a href="/tags/Spring-Cloud/" rel="tag"># Spring Cloud</a>
+          
+            <a href="/tags/微服务/" rel="tag"># 微服务</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/系统架构/系统架构演变/" rel="next" title="系统架构的演变">
+                <i class="fa fa-chevron-left"></i> 系统架构的演变
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Kokio Yao">
+            
+              <p class="site-author-name" itemprop="name">Kokio Yao</p>
+              <div class="site-description motion-element" itemprop="description">一个所谓的乖小孩，突然想有自己的喜好</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">24</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/kokioyao" title="GitHub &rarr; https://github.com/kokioyao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:ykkwpp@gmail.com" title="E-Mail &rarr; mailto:ykkwpp@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://twitter.com/kokioyao" title="Twitter &rarr; https://twitter.com/kokioyao" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://leetcode-cn.com/kokio/" title="Leetcode &rarr; https://leetcode-cn.com/kokio/" rel="noopener" target="_blank"><i class="fa fa-fw fa-pencil-square-o"></i>Leetcode</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-paper-plane"></i>
+                自学机票
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/kdn251/interviews" title="https://github.com/kdn251/interviews" rel="noopener" target="_blank">interviews</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/Snailclimb/JavaGuide" title="https://github.com/Snailclimb/JavaGuide" rel="noopener" target="_blank">JavaGuide</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ruanyifeng.com/blog/" title="http://www.ruanyifeng.com/blog/" rel="noopener" target="_blank">ruanyifeng</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#项目简介"><span class="nav-number">1.</span> <span class="nav-text">项目简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#项目可复制点"><span class="nav-number">1.1.</span> <span class="nav-text">项目可复制点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#整体概述"><span class="nav-number">1.2.</span> <span class="nav-text">整体概述</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Cloud微服务化"><span class="nav-number">2.</span> <span class="nav-text">Spring Cloud微服务化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Eureka服务端"><span class="nav-number">2.1.</span> <span class="nav-text">Eureka服务端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加依赖"><span class="nav-number">2.1.1.</span> <span class="nav-text">添加依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#yml文件配置"><span class="nav-number">2.1.2.</span> <span class="nav-text">yml文件配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Cloud-Config配置中心"><span class="nav-number">2.2.</span> <span class="nav-text">Spring Cloud Config配置中心</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加依赖-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">添加依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#yml文件"><span class="nav-number">2.2.2.</span> <span class="nav-text">yml文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#访问路径"><span class="nav-number">2.2.3.</span> <span class="nav-text">访问路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring-Cloud-Bus自动刷新"><span class="nav-number">2.2.4.</span> <span class="nav-text">Spring Cloud Bus自动刷新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自动刷新，并让其他服务接收到之后自动配置"><span class="nav-number">2.2.5.</span> <span class="nav-text">自动刷新，并让其他服务接收到之后自动配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Order、Product服务"><span class="nav-number">3.</span> <span class="nav-text">Order、Product服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#feign服务调用"><span class="nav-number">3.1.</span> <span class="nav-text">feign服务调用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加依赖-2"><span class="nav-number">3.1.1.</span> <span class="nav-text">添加依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置"><span class="nav-number">3.1.2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意"><span class="nav-number">3.1.3.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rabbitmq消息传输"><span class="nav-number">3.2.</span> <span class="nav-text">Rabbitmq消息传输</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#依赖"><span class="nav-number">3.2.1.</span> <span class="nav-text">依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用"><span class="nav-number">3.2.2.</span> <span class="nav-text">使用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Zuul服务网关"><span class="nav-number">4.</span> <span class="nav-text">Zuul服务网关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖-1"><span class="nav-number">4.1.</span> <span class="nav-text">依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-1"><span class="nav-number">4.2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现过滤"><span class="nav-number">4.3.</span> <span class="nav-text">实现过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跨域"><span class="nav-number">4.4.</span> <span class="nav-text">跨域</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hystrix断路器"><span class="nav-number">5.</span> <span class="nav-text">Hystrix断路器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖-2"><span class="nav-number">5.1.</span> <span class="nav-text">依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现"><span class="nav-number">5.2.</span> <span class="nav-text">实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sluth链路监控"><span class="nav-number">6.</span> <span class="nav-text">sluth链路监控</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖-3"><span class="nav-number">6.1.</span> <span class="nav-text">依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-2"><span class="nav-number">6.2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZipKin的几个关键概念"><span class="nav-number">6.3.</span> <span class="nav-text">ZipKin的几个关键概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kokio Yao</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">186k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">2:49</span>
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+-->
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a></div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-bolt"></i>
+    </span>
+    <span class="site-uv" title="总到访">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-fire"></i>
+    </span>
+    <span class="site-pv" title="总热量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'FO5i6MLQkkz4gFGzkfqs9REQ-gzGzoHsz',
+    appKey: '866LBR1GPYXr5AqhxvtYrfYN',
+    placeholder: '大哥，您说',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
