@@ -98,20 +98,20 @@
 
 
 
-  <meta name="description" content="什么是aopAOP是所谓的面向切面编程，它可以说是对于OOP的一种补充和完善，由于OOP的封装、多态、继承的特性，将对象作为了最小的单元，我们很方便的可以对类进行扩展，但是这些扩展都是纵向的（继承、实现），如果希望对于很多散乱的类中都添加相同部分功能的代码，就不显得不方便，不可能让这些不相关的类都去继承或实现某个类，如果都自己实现的话就会出现大量的重复代码，这样不合理。因此就有了AOP，它将对象内">
+  <meta name="description" content="引用来自没有我灵魂，学习阶段复习使用  什么是aopAOP是所谓的面向切面编程，它可以说是对于OOP的一种补充和完善，由于OOP的封装、多态、继承的特性，将对象作为了最小的单元，我们很方便的可以对类进行扩展，但是这些扩展都是纵向的（继承、实现），如果希望对于很多散乱的类中都添加相同部分功能的代码，就不显得不方便，不可能让这些不相关的类都去继承或实现某个类，如果都自己实现的话就会出现大量的重复代码，">
 <meta name="keywords" content="Spring,AOP,Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AOP">
 <meta property="og:url" content="http://kokioyao.github.io/Spring/AOP/AOP/index.html">
 <meta property="og:site_name" content="面壁墙">
-<meta property="og:description" content="什么是aopAOP是所谓的面向切面编程，它可以说是对于OOP的一种补充和完善，由于OOP的封装、多态、继承的特性，将对象作为了最小的单元，我们很方便的可以对类进行扩展，但是这些扩展都是纵向的（继承、实现），如果希望对于很多散乱的类中都添加相同部分功能的代码，就不显得不方便，不可能让这些不相关的类都去继承或实现某个类，如果都自己实现的话就会出现大量的重复代码，这样不合理。因此就有了AOP，它将对象内">
+<meta property="og:description" content="引用来自没有我灵魂，学习阶段复习使用  什么是aopAOP是所谓的面向切面编程，它可以说是对于OOP的一种补充和完善，由于OOP的封装、多态、继承的特性，将对象作为了最小的单元，我们很方便的可以对类进行扩展，但是这些扩展都是纵向的（继承、实现），如果希望对于很多散乱的类中都添加相同部分功能的代码，就不显得不方便，不可能让这些不相关的类都去继承或实现某个类，如果都自己实现的话就会出现大量的重复代码，">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2019/03/20/5c92186e55984.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/20/5c9218e4efe60.jpg">
-<meta property="og:updated_time" content="2019-03-20T10:45:34.006Z">
+<meta property="og:updated_time" content="2019-03-26T16:03:54.841Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AOP">
-<meta name="twitter:description" content="什么是aopAOP是所谓的面向切面编程，它可以说是对于OOP的一种补充和完善，由于OOP的封装、多态、继承的特性，将对象作为了最小的单元，我们很方便的可以对类进行扩展，但是这些扩展都是纵向的（继承、实现），如果希望对于很多散乱的类中都添加相同部分功能的代码，就不显得不方便，不可能让这些不相关的类都去继承或实现某个类，如果都自己实现的话就会出现大量的重复代码，这样不合理。因此就有了AOP，它将对象内">
+<meta name="twitter:description" content="引用来自没有我灵魂，学习阶段复习使用  什么是aopAOP是所谓的面向切面编程，它可以说是对于OOP的一种补充和完善，由于OOP的封装、多态、继承的特性，将对象作为了最小的单元，我们很方便的可以对类进行扩展，但是这些扩展都是纵向的（继承、实现），如果希望对于很多散乱的类中都添加相同部分功能的代码，就不显得不方便，不可能让这些不相关的类都去继承或实现某个类，如果都自己实现的话就会出现大量的重复代码，">
 <meta name="twitter:image" content="https://i.loli.net/2019/03/20/5c92186e55984.png">
 
 
@@ -443,7 +443,7 @@
                 
                   <span class="post-meta-item-text">更新</span>
                 
-                <time title="修改时间：2019-03-20 18:45:34" itemprop="dateModified" datetime="2019-03-20T18:45:34+08:00">2019-03-20</time>
+                <time title="修改时间：2019-03-27 00:03:54" itemprop="dateModified" datetime="2019-03-27T00:03:54+08:00">2019-03-27</time>
               
             
           </span>
@@ -550,7 +550,9 @@
       
 
       
-        <h3 id="什么是aop"><a href="#什么是aop" class="headerlink" title="什么是aop"></a>什么是aop</h3><p>AOP是所谓的面向切面编程，它可以说是对于OOP的一种补充和完善，由于OOP的封装、多态、继承的特性，将对象作为了最小的单元，我们很方便的可以对类进行扩展，但是这些扩展都是纵向的（继承、实现），如果希望对于很多散乱的类中都添加相同部分功能的代码，就不显得不方便，不可能让这些不相关的类都去继承或实现某个类，如果都自己实现的话就会出现大量的重复代码，这样不合理。因此就有了AOP，它将对象内部切开，把核心关注的代码，留在原先的对象中，将那部分重复可用的代码（横切关注点）抽取出来，而这部分就是切面，面向切面编程就是写这样的切面。</p>
+        <p><a href="https://blog.csdn.net/a745233700/article/details/80959716" target="_blank" rel="noopener">引用来自</a><br>没有我灵魂，学习阶段复习使用</p>
+<hr>
+<h3 id="什么是aop"><a href="#什么是aop" class="headerlink" title="什么是aop"></a>什么是aop</h3><p>AOP是所谓的面向切面编程，它可以说是对于OOP的一种补充和完善，由于OOP的封装、多态、继承的特性，将对象作为了最小的单元，我们很方便的可以对类进行扩展，但是这些扩展都是纵向的（继承、实现），如果希望对于很多散乱的类中都添加相同部分功能的代码，就不显得不方便，不可能让这些不相关的类都去继承或实现某个类，如果都自己实现的话就会出现大量的重复代码，这样不合理。因此就有了AOP，它将对象内部切开，把核心关注的代码，留在原先的对象中，将那部分重复可用的代码（横切关注点）抽取出来，而这部分就是切面，面向切面编程就是写这样的切面。</p>
 <a id="more"></a>
 <p>在spring中，实现AOP的方式有两种，一种是JDK代理，一种是CGlib代理，默认是使用JDK代理的，不过使用jdk代理的前提条件是要有接口。如果没有接口时，Spring会切换成CGlib代理。</p>
 <h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><p>一个对象的方法通过切入点表达式且匹配，那么这个对象就成了目标对象，而所匹配的方法就是连接点（join point），之后就会生成一个代理对象，该对象会实现原对象的接口，来实现原先的方法以及切面类中的方法，也可以在连接点上进行通知（advice）。最后还不改变原有代码。</p>
@@ -628,8 +630,6 @@
 <p>环绕通知是最常用的一种通知类型。大部分基于拦截的AOP框架，例如Nanning和JBoss4，都只提供环绕通知。 </p>
 </li>
 </ol>
-<hr>
-<p><a href="https://blog.csdn.net/a745233700/article/details/80959716" target="_blank" rel="noopener">引用来自</a><br>没有我灵魂</p>
 
       
     </div>
