@@ -98,22 +98,22 @@
 
 
 
-  <meta name="description" content="只有部分灵魂，学习阶段复习使用，参考资料写的笔记  进程和线程进程是资源分配的基本单位，线程是调度的基本单位。进程包含线程，线程共用进程的资源。 进程：是一个处于运行过程中的程序，当一个程序装载到内存中，系统为他分配资源之后运行，就变成一个进程，它有一定的独立性。 线程：线程是进程中的一个执行单元，负责当前进程中程序的运行，一个进程至少有一个线程，一个进程可以有多个线程，这个应用程序也可以称之为多">
+  <meta name="description" content="只有部分灵魂，学习阶段复习使用，参考资料写的笔记  进程和线程进程是资源分配的基本单位，线程是CPU调度的基本单位。进程包含线程，线程共用进程的资源。 进程：是一个处于运行过程中的程序，当一个程序装载到内存中，系统为他分配资源之后运行，就变成一个进程，它有一定的独立性。 线程：线程是进程中的一个执行单元，负责当前进程中程序的运行，一个进程至少有一个线程，一个进程可以有多个线程，这个应用程序也可以称">
 <meta name="keywords" content="Java,多线程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java线程">
 <meta property="og:url" content="http://kokioyao.github.io/Java/线程/Java线程/index.html">
 <meta property="og:site_name" content="面壁墙">
-<meta property="og:description" content="只有部分灵魂，学习阶段复习使用，参考资料写的笔记  进程和线程进程是资源分配的基本单位，线程是调度的基本单位。进程包含线程，线程共用进程的资源。 进程：是一个处于运行过程中的程序，当一个程序装载到内存中，系统为他分配资源之后运行，就变成一个进程，它有一定的独立性。 线程：线程是进程中的一个执行单元，负责当前进程中程序的运行，一个进程至少有一个线程，一个进程可以有多个线程，这个应用程序也可以称之为多">
+<meta property="og:description" content="只有部分灵魂，学习阶段复习使用，参考资料写的笔记  进程和线程进程是资源分配的基本单位，线程是CPU调度的基本单位。进程包含线程，线程共用进程的资源。 进程：是一个处于运行过程中的程序，当一个程序装载到内存中，系统为他分配资源之后运行，就变成一个进程，它有一定的独立性。 线程：线程是进程中的一个执行单元，负责当前进程中程序的运行，一个进程至少有一个线程，一个进程可以有多个线程，这个应用程序也可以称">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2019/03/20/5c91f2ee54949.jpg">
 <meta property="og:image" content="https://i.loli.net/2019/03/20/5c91f307585a7.jpg">
 <meta property="og:image" content="https://i.loli.net/2019/03/20/5c91f3b9cb5bd.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/20/5c91f41fc4ae4.jpg">
-<meta property="og:updated_time" content="2019-03-26T16:09:16.377Z">
+<meta property="og:updated_time" content="2019-05-20T07:21:18.138Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java线程">
-<meta name="twitter:description" content="只有部分灵魂，学习阶段复习使用，参考资料写的笔记  进程和线程进程是资源分配的基本单位，线程是调度的基本单位。进程包含线程，线程共用进程的资源。 进程：是一个处于运行过程中的程序，当一个程序装载到内存中，系统为他分配资源之后运行，就变成一个进程，它有一定的独立性。 线程：线程是进程中的一个执行单元，负责当前进程中程序的运行，一个进程至少有一个线程，一个进程可以有多个线程，这个应用程序也可以称之为多">
+<meta name="twitter:description" content="只有部分灵魂，学习阶段复习使用，参考资料写的笔记  进程和线程进程是资源分配的基本单位，线程是CPU调度的基本单位。进程包含线程，线程共用进程的资源。 进程：是一个处于运行过程中的程序，当一个程序装载到内存中，系统为他分配资源之后运行，就变成一个进程，它有一定的独立性。 线程：线程是进程中的一个执行单元，负责当前进程中程序的运行，一个进程至少有一个线程，一个进程可以有多个线程，这个应用程序也可以称">
 <meta name="twitter:image" content="https://i.loli.net/2019/03/20/5c91f2ee54949.jpg">
 
 
@@ -428,7 +428,7 @@
                 
                   <span class="post-meta-item-text">更新</span>
                 
-                <time title="修改时间：2019-03-27 00:09:16" itemprop="dateModified" datetime="2019-03-27T00:09:16+08:00">2019-03-27</time>
+                <time title="修改时间：2019-05-20 15:21:18" itemprop="dateModified" datetime="2019-05-20T15:21:18+08:00">2019-05-20</time>
               
             
           </span>
@@ -537,7 +537,7 @@
       
         <p>只有部分灵魂，学习阶段复习使用，参考资料写的笔记</p>
 <hr>
-<h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><p>进程是资源分配的基本单位，线程是调度的基本单位。进程包含线程，线程共用进程的资源。</p>
+<h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><p>进程是资源分配的基本单位，线程是CPU调度的基本单位。进程包含线程，线程共用进程的资源。</p>
 <p>进程：是一个处于运行过程中的程序，当一个程序装载到内存中，系统为他分配资源之后运行，就变成一个进程，它有一定的独立性。</p>
 <p>线程：线程是进程中的一个执行单元，负责当前进程中程序的运行，一个进程至少有一个线程，一个进程可以有多个线程，这个应用程序也可以称之为多线程程序。</p>
  <a id="more"></a>
@@ -864,7 +864,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1012,7 +1012,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">33</span>
+                      
+                    
+                    <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1155,7 +1157,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">186k</span>
+    <span title="站点总字数">211k</span>
   
 
   
@@ -1164,7 +1166,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">2:49</span>
+    <span title="站点阅读时长">3:11</span>
   
 </div>
 <!--
